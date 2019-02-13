@@ -1,0 +1,12 @@
+
+commit 3887ef7210c3ebdde7a5b2f7d1ebbf0c2953aee3 (HEAD -> master)
+Author: OkhremukAlexei <alexei.okhremuk@gmail.com>
+Date:   Wed Feb 13 23:22:35 2019 +0300
+
+    add task1/status.txt
+
+commit 48727b3161e8ea21c426b97685398ca46ff2f0d3
+Author: OkhremukAlexei <alexei.okhremuk@gmail.com>
+Date:   Wed Feb 13 23:03:34 2019 +0300
+
+    add.gitignore
