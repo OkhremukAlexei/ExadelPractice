@@ -150,7 +150,14 @@ aside > nav > div{
     width: 18vw;
     height: 57.5vh;
     border: 2px solid #000000;
-
+}
+.user-info{
+    float: right;
+}
+.user-info > span{
+    padding-right: 5vw;
+    font: 4vh "Tahoma";
+    color: rgba(69,118,62,0.73);
 }
 .user-icon-info{
     margin: 1vh auto 0 0.5vw;
@@ -158,7 +165,11 @@ aside > nav > div{
     height: 7vh;
     border-radius: 100%;
 }
-
+/*.title{*/
+    /*padding-left: 1vw;*/
+    /*font: bold 3vh "Tahoma";*/
+    /*color: rgba(69,118,62,0.73);*/
+/*}*/
 .comments{
     position: absolute;
     left: 5%;
@@ -169,17 +180,29 @@ aside > nav > div{
 .area-comments{
     width: 100%;
 }
-.delete{
+.icon{
     position: absolute;
-    right: 0;
     outline: none;
     border: 0;
     background: transparent;
 }
-.delete img{
-    float: left;
+.icon img{
     height: 5vh;
     width: 2vw;
+}
+.delete{
+    right: 0;
+}
+.like{
+    left: 0;
+    top: 8vh;
+}
+.change{
+    right: 0;
+    top: 7vh;
+}
+.delete img{
+    float: left;
 }
 .load-photos{
     width: 17vw;
