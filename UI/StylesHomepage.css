@@ -58,6 +58,10 @@ aside img{
     max-width: 75%;
 }
 
+aside img:hover, a img:hover{
+    transform: scale(1.1);
+}
+
 header nav{
     height: 100%;
     position: relative;
@@ -215,6 +219,9 @@ aside > nav > div{
     color: #3c783c;
     font-size: 2vh;
     outline: none;
+}
+button:hover{
+    cursor: pointer;
 }
 .about-portal{
     position: absolute;
