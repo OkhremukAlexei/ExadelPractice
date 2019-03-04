@@ -1,7 +1,7 @@
 * {
     box-sizing: border-box;
     text-decoration: none;
-    font-family:"Tahoma";
+    font-family: "Tahoma";
 }
 body{
     width: 100%;
@@ -108,11 +108,12 @@ aside > nav > div{
 }
 
 .log-in{
-    width: 5%;
-    right: 1%;
+    width: 4%;
+    right: 0;
 }
 
 .user-icon img{
+
     margin: 0.5vh 0 0 5vw;
     border-radius: 100%;
 }
@@ -151,6 +152,23 @@ aside > nav > div{
     border: 2px solid #000000;
 
 }
+.user-icon-info{
+    margin: 1vh auto 0 0.5vw;
+    width: 4vw;
+    height: 7vh;
+    border-radius: 100%;
+}
+
+.comments{
+    position: absolute;
+    left: 5%;
+    bottom: 3%;
+    width: 90%;
+    border: 1px solid black;
+}
+.area-comments{
+    width: 100%;
+}
 .delete{
     position: absolute;
     right: 0;
@@ -172,7 +190,7 @@ aside > nav > div{
     border-radius: 7%;
     border: 3px solid rgba(74,144,67,0.91);
     color: #3c783c;
-    font-size: 3vh;
+    font-size: 2vh;
     outline: none;
 }
 .about-portal{
