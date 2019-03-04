@@ -1,0 +1,190 @@
+* {
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family:"Tahoma";
+}
+body{
+    width: 100%;
+    min-height: 100%;
+    margin:0;
+    padding:0;
+
+}
+
+header{
+    box-shadow: 5px 1px 5px 5px rgba(69,118,62,0.73);
+}
+footer{
+    box-shadow: -5px 1px 5px 5px rgba(69,118,62,0.73);
+    bottom: 0;
+}
+
+
+header, footer{
+    position: fixed;
+    min-width: 100%;
+    height: 7%;
+    background-color: #d5f3c4;
+    overflow: hidden;
+    z-index: 16;
+}
+
+aside{
+    position: fixed;
+    width: 4%;
+    min-height: 100%;
+    background-color: #d5f3c4;
+    overflow: hidden;
+    box-shadow: 2px 1px 5px 5px rgba(69,118,62,0.73);
+}
+
+section{
+    display: flex;
+    flex-direction: column;
+    margin: 6% 0 5% 6%;
+    height: 100%;
+    width: 94%;
+    float: left;
+}
+
+header img{
+    max-height: 85%;
+    width: auto;
+    vertical-align: middle;
+}
+
+aside img{
+    height: auto;
+    max-width: 75%;
+}
+
+header nav{
+    height: 100%;
+    position: relative;
+}
+
+aside > nav{
+    width: 100%;
+    position: relative;
+}
+
+header > nav > div{
+    position: absolute;
+    display: inline-block;
+    height: 100%;
+    width: 30%;
+
+}
+
+aside > nav > div{
+    display: inline-block;
+    height: 5%;
+    width: 100%;
+    position: absolute;
+    text-align: center;
+}
+
+
+.page-icon a, .user-icon a{
+    margin-left: 1.2vw;
+    text-align: center;
+    vertical-align: top;
+    font: 5vh "Tahoma";
+    color: rgba(69,118,62,0.73);
+    text-shadow: 2px -2px 3px rgba(0,0,0,0.73);
+}
+
+.page-icon img{
+    margin-top: 0.5vh;
+}
+.page-icon{
+    text-align: justify;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.user-icon{
+    margin-left: 60%;
+    width: 30%;
+}
+
+.log-in{
+    width: 5%;
+    right: 1%;
+}
+
+.user-icon img{
+    margin: 0.5vh 0 0 5vw;
+    border-radius: 100%;
+}
+
+.add-post{
+    top: 9vh;
+}
+.profile{
+    top: 20vh;
+}
+.searching{
+    top: 32vh;
+}
+.photo-post{
+    margin: 4% 18% 5% 18%;
+    width: 60vw;
+    height: 60vh;
+    border: 2px solid #000000;
+}
+.photo{
+    padding: 1vh 0.5vw 1.5vh 0.5vw;
+    float: left;
+    width: 40vw;
+    height: 60vh;
+}
+.photo img{
+    width: 100%;
+    height: 100%;
+}
+.info{
+    position: relative;
+    margin: 1vh 0 0 0.5vw;
+    float: left;
+    width: 18vw;
+    height: 57.5vh;
+    border: 2px solid #000000;
+
+}
+.delete{
+    position: absolute;
+    right: 0;
+    outline: none;
+    border: 0;
+    background: transparent;
+}
+.delete img{
+    float: left;
+    height: 5vh;
+    width: 2vw;
+}
+.load-photos{
+    width: 17vw;
+    height: 6vh;
+    margin-left: 36vw;
+    margin-bottom: 5vh;
+    background-color: rgba(219, 255, 197, 0.55);
+    border-radius: 7%;
+    border: 3px solid rgba(74,144,67,0.91);
+    color: #3c783c;
+    font-size: 3vh;
+    outline: none;
+}
+.about-portal{
+    position: absolute;
+    right: 1%;
+    bottom: 20%;
+}
+
+.name-portal{
+    position: absolute;
+    left: 1%;
+    bottom: 20%;
+}
+
+
