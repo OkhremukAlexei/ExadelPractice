@@ -17,7 +17,7 @@ let test = (function(){
             author: 'Alex',
             photoLink: '',
             likes : ["Alex","Sidorov"],
-            hashTags : ["#space","#ElonMusk"]
+            hashTags : ["#space", "#ElonMusk"]
         },
 
         {
@@ -62,12 +62,12 @@ let test = (function(){
 
         {
             id: '7',
-            description: 'nature',
-            creationDate: new Date('2017-05-20T00:00:00'),
-            author: 'Natalia',
-            photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
-            likes : ["Alex", "Aleksandra"],
-            hashTags : ["#nature"]
+            description: 'dOgS ))))))))',
+            creationDate: new Date('2019-01-20T13:02:29'),
+            author: 'Sanya',
+            photoLink: 'https://prosobachku.ru/wp-content/uploads/2017/04/harakter-djek-rasel-terier.jpg',
+            likes : [],
+            hashTags : ["animals", "#dog"]
         },
 
         {
@@ -103,7 +103,7 @@ let test = (function(){
         {
             id: '11',
             description: 'nature',
-            creationDate: new Date('20017-05-20T00:00:00'),
+            creationDate: new Date('2017-05-20T00:00:00'),
             author: 'Natalia',
             photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
             likes : ["Alex", "Aleksandra"],
@@ -173,7 +173,7 @@ let test = (function(){
         {
             id: '77',
             description: 'nature',
-            creationDate: new Date('20017-05-20T00:00:00'),
+            creationDate: new Date('2017-05-20T00:00:00'),
             author: 'Natalia',
             photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
             likes : ["Alex", "Aleksandra"],
@@ -213,7 +213,6 @@ let test = (function(){
                     return foundPost[0];
                 }
                 else{
-                    console.log("Post not found...");
                     return null;
                 }
             }
@@ -222,17 +221,36 @@ let test = (function(){
         getPhotoPosts: function(skip, top, filterConfig){
             skip = skip || 0;
             top = top || 10;
+            filterConfig = filterConfig || null;
             let foundPosts = photoPosts.sort(function (post1, post2) {
                 return post1.creationDate - post2.creationDate;
-            })
-            .filter(function (post) {
-                    return post.author === filterConfig.author;
-                }).slice(skip, skip + top);
-            if(this.checkObject(foundPosts)){
+            });
+            if(filterConfig){
+                if(filterConfig.hasOwnProperty("author")) {
+                    foundPosts = foundPosts.filter(function (post) {
+                        return post.author === filterConfig.author;
+                    });
+                }
+                else if(filterConfig.hasOwnProperty("hashTags")){
+                    if(filterConfig.hashTags.length !== 0){
+                        foundPosts = foundPosts.filter(function (post) {
+                            for(let i = 0; i < filterConfig.hashTags.length; i++) {
+                                for(let j = 0; j < post.hashTags.length; j++){
+                                    if(post.hashTags[j] === filterConfig.hashTags[i]){
+                                        return true;
+                                    }
+                                }
+                            }
+                            return false;
+                        });
+                    }
+                }
+            }
+            foundPosts = foundPosts.slice(skip, skip + top);
+            if(this.checkObject(foundPosts) && foundPosts.length !== 0){
                 return foundPosts;
             }
             else {
-                console.log("Posts not found...");
                 return null;
             }
         },
@@ -246,8 +264,8 @@ let test = (function(){
                 if(this.checkString(post.id) && this.checkString(post.description) &&
                    this.checkDate(post.creationDate) && post.description.length < 200)
                 {
-                    if(this.checkId(post.id) && this.isEmpty(post.author) &&
-                       this.isEmpty(post.photoLink))
+                    if(this.checkId(post.id) && !this.isEmpty(post.author) &&
+                       !this.isEmpty(post.photoLink))
                     {
                         if(this.checkString(post.author) && this.checkString(post.photoLink)){
                             let checkLikes = false;
@@ -282,19 +300,70 @@ let test = (function(){
         },
 
         addPhotoPost: function(post){
-            if(this.validatePhotoPost(post)){
+            if(!this.getPhotoPost(post.id) && this.validatePhotoPost(post)){
                 photoPosts.push(post);
                 return true;
             }
             else {
                 return false;
             }
-
         },
 
-        // editPhotoPost: function(id, post){
-        //
-        // }
+        editPhotoPost: function(id, post){
+            if(!this.getPhotoPost(id)) {
+                return false;
+            }
+            if(!this.checkId(id)){
+                console.log("Incorrect id!");
+                return false;
+            }
+            if(this.checkObject(post.photoLink)){
+                if(this.checkString(post.photoLink) && !this.isEmpty(post.photoLink) )
+                    this.getPhotoPost(id).photoLink = post.photoLink;
+                else {
+                    console.log("Incorrect link!");
+                    return false;
+                }
+            }
+
+            if(this.checkObject(post.description)){
+                if(this.checkString(post.description) && !this.isEmpty(post.description) && post.description.length < 200)
+                    this.getPhotoPost(id).description = post.description;
+                else {
+                    console.log("Incorrect description!");
+                    return false;
+                }
+            }
+            let checkHashTags = false;
+            if(this.checkObject(post.hashTags)){
+                checkHashTags = post.hashTags.every(function (hashtag) {
+                    if(hashtag.charAt(0) !== '#'){
+                        return false;
+                    }
+                    return this.checkString(hashtag);
+                }, this);
+            }
+            if(checkHashTags)
+            {
+                this.getPhotoPost(id).hashTags = post.hashTags;
+                this.getPhotoPost(id).likes = [];            //Обнуляем лайки
+                return true;
+            }
+            else
+                return false;
+        },
+
+        removePhotoPost: function(id){
+            let delPost = this.getPhotoPost(id);
+            if(delPost){
+                let delIndex = photoPosts.indexOf(delPost);
+                photoPosts.splice(delIndex, delIndex);
+                return true;
+            }
+            else {
+                return false;
+            }
+        },
 
         checkString: function(someString){
             return typeof someString === "string";
@@ -326,20 +395,52 @@ let test = (function(){
         },
 
         isEmpty: function (someString) {
-            return someString.trim();
+            return !someString.trim();
         }
     }
 }());
 let testPost = {
-        id: '103',
+        id: '1',
         description: 'Привет!',
-        creationDate: new Date('2005-02-20T23:00:00'),
+        creationDate: new Date(),
         author: 'Alex',
         photoLink: 'http://hello.by//helloWorld.png',
         likes : [],
         hashTags : []
 };
-console.log(test.getPhotoPost(404));
-console.log(test.getPhotoPosts(0, 19, {author: "Alex"}));
-console.log(test.validatePhotoPost({id: 3, author: "CoolDog", photoLink: "http://vk.com//logo.jpg"}));
-console.log(test.addPhotoPost(testPost));
+if(!test.getPhotoPost(404))
+    console.log("Post not found...");
+else{
+    console.log("Post: ");
+    console.log(test.getPhotoPost(404));
+}
+if(test.validatePhotoPost({id: 3, author: "CoolDog", photoLink: "http://vk.com//logo.jpg"}))
+    console.log("Post valid");
+else
+    console.log("Post invalid");
+if(test.addPhotoPost(testPost)){
+    console.log("Post added");
+}
+else{
+    console.log("Post invalid");
+}
+if(test.editPhotoPost(5, {photoLink: "https://nature.ru//nature.jpg", hashTags: ["#ILoveNature"]})){
+    console.log("Post changed");
+}
+else{
+    console.log("Post change failed");
+}
+if(test.removePhotoPost(3)){
+    console.log("Post deleted");
+}
+else{
+    console.log("Post not found...");
+}
+if(test.getPhotoPosts(0, 20, {hashTags: ["#ASD", "#dog"]})){
+    console.log(test.getPhotoPosts(0, 20, {hashTags: ["#ASD", "#dog"]}));
+}
+else {
+    console.log("Posts not found...");
+}
+console.log("All posts: ");
+console.log(test.getPhotoPosts(0, 20));
