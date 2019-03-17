@@ -58,6 +58,13 @@ aside img{
     max-width: 75%;
 }
 
+/*.drop{*/
+    /*float: left;*/
+    /*width: 7vw;*/
+    /*height: 3vh;*/
+    /*border: 2px solid #000000;*/
+/*}*/
+
 aside img:hover, a img:hover{
     transform: scale(1.1);
 }
