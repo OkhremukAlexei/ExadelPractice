@@ -42,7 +42,7 @@ const photoPosts = [
   {
     id: '5',
     description: 'nature',
-    creationDate: new Date('2017-05-20T00:00:00'),
+    creationDate: '2017-01-02',
     author: 'Natalia',
     photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
     likes: ['Alex', 'Aleksandra'],
@@ -53,7 +53,7 @@ const photoPosts = [
     id: '6',
     description: 'nature',
     creationDate: new Date('2017-05-20T00:00:00'),
-    author: 'Natalia',
+    author: '',
     photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
     likes: ['Alex', 'Aleksandra'],
     hashTags: ['#nature'],
@@ -76,7 +76,7 @@ const photoPosts = [
     author: 'Natalia',
     photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
     likes: ['Alex', 'Aleksandra'],
-    hashTags: ['#nature'],
+    hashTags: ['nature'],
   },
 
   {
@@ -92,7 +92,6 @@ const photoPosts = [
   {
     id: '10',
     description: 'nature',
-    creationDate: new Date('2017-05-20T00:00:00'),
     author: 'Natalia',
     photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
     likes: ['Alex', 'Aleksandra'],
@@ -352,6 +351,18 @@ class PostCollection {
     return false;
   }
 
+  addAll(posts) {
+    const invalidPosts = [];
+    posts.forEach((post) => {
+      if (!this.addPhotoPost(post)) invalidPosts.push(post);
+    });
+    return invalidPosts;
+  }
+
+  clear() {
+    this._photoPosts = [];
+  }
+
   static _checkString(someString) {
     return typeof someString === 'string';
   }
@@ -423,10 +434,11 @@ if (test.removePhotoPost(3)) {
 } else {
   console.log('Post not found...');
 }
-if (test.getPhotoPosts(0, 20, { hashTags: ['#ASD'] })) {
-  console.log(test.getPhotoPosts(0, 20, { hashTags: ['#ASD'] }));
-} else {
+if (!test.getPhotoPosts(0, 20, { hashTags: ['#ASD'] })) {
   console.log('Posts not found...');
 }
 console.log('All posts: ');
 console.log(test.getPhotoPosts(0, 20));
+test.clear();
+console.log(test.getPhotoPosts(0, 20));
+console.log(test.addAll(photoPosts));
