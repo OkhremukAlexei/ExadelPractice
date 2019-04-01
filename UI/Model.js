@@ -1,20 +1,20 @@
 const photoPosts = [
   {
     id: '1',
-    description: 'cats :)',
-    creationDate: new Date('2019-01-07T23:59:59'),
+    description: 'ahaha :)',
+    creationDate: '2019-01-07',
     author: 'Alex',
-    photoLink: 'http://cats.png',
+    photoLink: 'https://i.ytimg.com/vi/_JDnTsb1GfE/maxresdefault.jpg',
     likes: ['Vadim'],
-    hashTags: ['#funny', 'cats'],
+    hashTags: ['#funny', '#cats'],
   },
 
   {
     id: '3',
     description: 'SpaceX',
-    creationDate: new Date('2005-02-20T23:00:00'),
+    creationDate: '2019-01-07',
     author: 'Alex',
-    photoLink: 'http://spaceX.png',
+    photoLink: 'https://media.gq.com/photos/57eac35d9228bbed3f6f4ee5/master/pass/elon-musk-is-a-rocket.jpg',
     likes: ['Alex', 'Sidorov'],
     hashTags: ['#space', '#ElonMusk'],
   },
@@ -22,7 +22,7 @@ const photoPosts = [
   {
     id: '2',
     description: 'I love Python!!!!!!!',
-    creationDate: new Date('2018-02-20T23:00:00'),
+    creationDate: '2018-02-20',
     author: 'Dima',
     photoLink: 'https://qph.fs.quoracdn.net/main-qimg-5bcd0509a8c32a59e5d362c1ed531f19',
     likes: ['Vadim', 'Alex'],
@@ -32,7 +32,7 @@ const photoPosts = [
   {
     id: '4',
     description: 'ASD!!!! 9/32',
-    creationDate: new Date('2019-03-10T12:37:12'),
+    creationDate: '2019-01-07',
     author: 'Nekit',
     photoLink: 'https://acm.bsu.by/courses/89/problems/890/1.png',
     likes: ['Alex', 'Vadim', 'Fronter'],
@@ -40,7 +40,7 @@ const photoPosts = [
   },
 
   {
-    id: '5',
+    id: 5,
     description: 'nature',
     creationDate: '2017-01-02',
     author: 'Natalia',
@@ -52,7 +52,7 @@ const photoPosts = [
   {
     id: '6',
     description: 'nature',
-    creationDate: new Date('2017-05-20T00:00:00'),
+    creationDate: '2017-05-20',
     author: '',
     photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
     likes: ['Alex', 'Aleksandra'],
@@ -62,96 +62,27 @@ const photoPosts = [
   {
     id: '7',
     description: 'dOgS ))))))))',
-    creationDate: new Date('2019-01-20T13:02:29'),
+    creationDate: '2019-01-20',
     author: 'Sanya',
     photoLink: 'https://prosobachku.ru/wp-content/uploads/2017/04/harakter-djek-rasel-terier.jpg',
     likes: [],
-    hashTags: ['animals', '#dog'],
-  },
-
-  {
-    id: '8',
-    description: 'nature',
-    creationDate: new Date('2017-05-20T00:00:00'),
-    author: 'Natalia',
-    photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
-    likes: ['Alex', 'Aleksandra'],
-    hashTags: ['nature'],
+    hashTags: ['#animals', '#dog', '#iloveanimals', '#dogs&cats', '#pets'],
   },
 
   {
     id: '9',
     description: 'nature',
-    creationDate: new Date('2017-05-20T00:00:00'),
+    creationDate: '2019-01-07',
     author: 'Natalia',
     photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
-    likes: ['Alex', 'Aleksandra'],
-    hashTags: ['#nature'],
-  },
-
-  {
-    id: '10',
-    description: 'nature',
-    author: 'Natalia',
-    photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
-    likes: ['Alex', 'Aleksandra'],
-    hashTags: ['#nature'],
-  },
-
-  {
-    id: '11',
-    description: 'nature',
-    creationDate: new Date('2017-05-20T00:00:00'),
-    author: 'Natalia',
-    photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
-    likes: ['Alex', 'Aleksandra'],
-    hashTags: ['#nature'],
-  },
-
-  {
-    id: '12',
-    description: 'nature',
-    creationDate: new Date('2017-05-20T00:00:00'),
-    author: 'Natalia',
-    photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
-    likes: ['Alex', 'Aleksandra'],
-    hashTags: ['#nature'],
-  },
-
-  {
-    id: '13',
-    description: 'nature',
-    creationDate: new Date('2017-05-20T00:00:00'),
-    author: 'Natalia',
-    photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
-    likes: ['Alex', 'Aleksandra'],
-    hashTags: ['#nature'],
-  },
-
-  {
-    id: '14',
-    description: 'nature',
-    creationDate: new Date('2017-05-20T00:00:00'),
-    author: 'Natalia',
-    photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
-    likes: ['Alex', 'Aleksandra'],
-    hashTags: ['#nature'],
-  },
-
-  {
-    id: '15',
-    description: 'nature',
-    creationDate: new Date('2017-05-20T00:00:00'),
-    author: 'Natalia',
-    photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
-    likes: ['Alex', 'Aleksandra'],
+    likes: [12, 'Aleksandra'],
     hashTags: ['#nature'],
   },
 
   {
     id: '16',
     description: 'nature',
-    creationDate: new Date('2017-05-20T00:00:00'),
+    creationDate: '2017-04-21',
     author: 'Natalia',
     photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
     likes: ['Alex', 'Aleksandra'],
@@ -161,7 +92,7 @@ const photoPosts = [
   {
     id: '17',
     description: 'nature',
-    creationDate: new Date('2017-05-20T00:00:00'),
+    creationDate: '2017-05-20',
     author: 'Natalia',
     photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
     likes: ['Alex', 'Aleksandra'],
@@ -171,7 +102,7 @@ const photoPosts = [
   {
     id: '77',
     description: 'nature',
-    creationDate: new Date('2017-05-20T00:00:00'),
+    creationDate: '2019-01-07',
     author: 'Natalia',
     photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
     likes: ['Alex', 'Aleksandra'],
@@ -181,7 +112,7 @@ const photoPosts = [
   {
     id: '18',
     description: 'nature',
-    creationDate: new Date('2017-05-20T00:00:00'),
+    creationDate: '2019-01-07',
     author: 'Natalia',
     photoLink: 'https://s1.1zoom.ru/b5050/41/189587-frederika_1680x1050.jpg',
     likes: ['Alex', 'Aleksandra'],
@@ -191,7 +122,7 @@ const photoPosts = [
   {
     id: '404',
     description: 'Rick Sanchez',
-    creationDate: new Date('2013-12-25T15:04:24'),
+    creationDate: '2013-12-25',
     author: 'Pavel',
     photoLink: 'https://www.clipartmax.com/png/middle/194-1947759_rick-sanchez-morty-smith-drawing-deviantart-rick-and-morty-vector.png',
     likes: [],
@@ -200,21 +131,22 @@ const photoPosts = [
 ];
 
 class PostCollection {
-  constructor(posts) {
+  constructor(posts, user) {
     this._photoPosts = [];
+    this._user = user;
     posts.forEach(post => this.addPhotoPost(post));
   }
 
   getPhotoPost(id) {
     const realId = Number.parseInt(id, 10);
-    if (PostCollection._checkId(realId)) {
-      const foundPost = this._photoPosts.filter(post => parseInt(post.id, 10) === realId);
-      if (PostCollection._checkObject(foundPost[0])) {
-        return foundPost[0];
-      }
+    if (!PostCollection._checkId(realId)) {
       return null;
     }
-    return null;
+    const foundPost = this._photoPosts.filter(post => parseInt(post.id, 10) === realId);
+    if (!PostCollection._checkObject(foundPost[0])) {
+      return null;
+    }
+    return foundPost[0];
   }
 
   getPhotoPosts(skip = 0, top = 10, filterConfig = {}) {
@@ -279,7 +211,6 @@ class PostCollection {
             } else {
               checkHashTags = true;
             }
-
             return !(!checkLikes || !checkHashTags);
           }
         }
@@ -289,11 +220,11 @@ class PostCollection {
   }
 
   addPhotoPost(post) {
-    if (!this.getPhotoPost(post.id) && PostCollection._validatePhotoPost(post)) {
-      this._photoPosts.push(post);
-      return true;
+    if (this.getPhotoPost(post.id) || !PostCollection._validatePhotoPost(post)) {
+      return false;
     }
-    return false;
+    this._photoPosts.push(post);
+    return true;
   }
 
   editPhotoPost(id, post) {
@@ -301,7 +232,6 @@ class PostCollection {
       return false;
     }
     if (!PostCollection._checkId(id)) {
-      console.log('Incorrect id!');
       return false;
     }
     if (PostCollection._checkObject(post.photoLink)) {
@@ -309,7 +239,6 @@ class PostCollection {
           && !PostCollection.isEmpty(post.photoLink)) {
         this.getPhotoPost(id).photoLink = post.photoLink;
       } else {
-        console.log('Incorrect link!');
         return false;
       }
     }
@@ -320,7 +249,6 @@ class PostCollection {
           && post.description.length < 200) {
         this.getPhotoPost(id).description = post.description;
       } else {
-        console.log('Incorrect description!');
         return false;
       }
     }
@@ -375,11 +303,7 @@ class PostCollection {
     if (!regDate.test(date.toString())) {
       return false;
     }
-    const partsDate = date.split('-');
-    const realDate = new Date(date);
-    return partsDate[0] === realDate.getFullYear().toString()
-            && partsDate[1] - 1 === realDate.getMonth().toString()
-            && partsDate[2] === realDate.getDate().toString();
+    return true;
   }
 
   static _checkId(id) {
@@ -394,51 +318,5 @@ class PostCollection {
     return !someString.trim();
   }
 }
-const testPost = {
-  id: '1',
-  description: 'Привет!',
-  creationDate: new Date(),
-  author: 'Alex',
-  photoLink: 'http://hello.by//helloWorld.png',
-  likes: [],
-  hashTags: [],
-};
 
-const test = new PostCollection(photoPosts);
-if (!test.getPhotoPost(404)) console.log('Post not found...');
-else {
-  console.log('Post: ');
-  console.log(test.getPhotoPost(404));
-}
-if (test.addPhotoPost(testPost)) {
-  console.log('Post added');
-} else {
-  console.log('Post invalid');
-}
-if (PostCollection._validatePhotoPost(
-  {
-    id: 104, author: 'Dima', photoLink: 'http://F.png', description: 'bla-bla', creationDate: new Date(),
-  },
-)) {
-  console.log('Post valid');
-} else {
-  console.log('Post invalid');
-}
-if (test.editPhotoPost(5, { photoLink: 'https://nature.ru//nature.jpg', hashTags: ['#ILoveNature'] })) {
-  console.log('Post changed');
-} else {
-  console.log('Post change failed');
-}
-if (test.removePhotoPost(3)) {
-  console.log('Post deleted');
-} else {
-  console.log('Post not found...');
-}
-if (!test.getPhotoPosts(0, 20, { hashTags: ['#ASD'] })) {
-  console.log('Posts not found...');
-}
-console.log('All posts: ');
-console.log(test.getPhotoPosts(0, 20));
-test.clear();
-console.log(test.getPhotoPosts(0, 20));
-console.log(test.addAll(photoPosts));
+const testCollection = new PostCollection([], 'Alex');

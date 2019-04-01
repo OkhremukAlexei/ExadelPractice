@@ -1,7 +1,7 @@
 * {
     box-sizing: border-box;
     text-decoration: none;
-    font-family: "Tahoma";
+    font-family: "Tahoma", sans-serif;
 }
 body{
     width: 100%;
@@ -29,19 +29,30 @@ header, footer{
     z-index: 16;
 }
 
-aside{
+aside {
     position: fixed;
     width: 4%;
     min-height: 100%;
     background-color: #d5f3c4;
     overflow: hidden;
-    box-shadow: 2px 1px 5px 5px rgba(69,118,62,0.73);
+    box-shadow: 2px 1px 5px 5px rgba(69, 118, 62, 0.73);
 }
 
-section{
+p{
+    margin: 0;
+    font-family: "Times New Roman", sans-serif;
+    font-size: 20px;
+    color: rgba(14, 39, 13, 0.86);
+}
+
+h4{
+    margin: 0;
+}
+
+.all-photos{
     display: flex;
     flex-direction: column;
-    margin: 6% 0 5% 6%;
+    margin: 6% 0 0 6%;
     height: 100%;
     width: 94%;
     float: left;
@@ -163,6 +174,7 @@ aside > nav > div{
     border: 2px solid #000000;
 }
 .user-info{
+    padding-right: 1.5vw;
     float: right;
 }
 .user-info > span{
@@ -176,17 +188,24 @@ aside > nav > div{
     height: 7vh;
     border-radius: 100%;
 }
-/*.title{*/
-    /*padding-left: 1vw;*/
-    /*font: bold 3vh "Tahoma";*/
-    /*color: rgba(69,118,62,0.73);*/
-/*}*/
+.title{
+    margin-top: 5vh;
+    padding-left: 1vw;
+    font-size: 20px;
+}
 .comments{
-    position: absolute;
-    left: 5%;
-    bottom: 3%;
     width: 90%;
-    border: 1px solid black;
+    margin-left: 5%;
+    border: 1px solid #a4a4a4;
+}
+.all-comments{
+    height: 60%;
+    margin-top: 15%;
+    word-break: revert;
+}
+.add-comments{
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 .area-comments{
     width: 100%;
@@ -199,9 +218,10 @@ aside > nav > div{
 }
 .icon img{
     height: 5vh;
-    width: 2vw;
+    width: 2.5vw;
 }
 .delete{
+    top: 0.5vh;
     right: 0;
 }
 .like{
@@ -218,8 +238,8 @@ aside > nav > div{
 .load-photos{
     width: 17vw;
     height: 6vh;
-    margin-left: 36vw;
-    margin-bottom: 5vh;
+    margin-left: 40vw;
+    margin-bottom: 15vh;
     background-color: rgba(219, 255, 197, 0.55);
     border-radius: 7%;
     border: 3px solid rgba(74,144,67,0.91);
