@@ -1,125 +1,64 @@
 <!DOCTYPE html>
 <html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="StylesHomepage.css">
-        <title>Лента</title>
-    </head>
-    <body>
-        <header>
-            <nav>
-                <div class="page-icon">
-                    <a href="Homepage.html" title="PhotoPortal">
-                        <img src="клевер.png"/>
-                        Лента
-                    </a>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="StylesHomepage.css">
+    <title>Лента</title>
+</head>
+<body>
+<header>
+    <nav>
+        <div class="page-icon">
+            <a href="Homepage.html" title="PhotoPortal">
+                <img src="клевер.png"/>
+                Лента
+            </a>
+        </div>
+        <div class="log-in">
+            <a href="#" title="Войти">
+                <img src="log_in.png"/>
+            </a>
+        </div>
+    </nav>
+</header>
+<aside>
+    <nav>
+        <div class="add-post" >
+            <a href="#" title="Добавить пост">
+                <img src="plus.png"/>
+            </a>
+        </div>
 
-                </div>
-                <div class="user-icon">
-                    <a href="#" title="Профиль">
-                        <img src="dog.jpg"/>
-                        CoolDog
-                    </a>
-                </div>
-                <div class="log-in">
-                    <a href="#" title="Войти">
-                        <img src="log_in.png"/>
-                    </a>
-                </div>
-            </nav>
-        </header>
-        <aside>
-            <nav>
-                <div class="add-post" >
-                    <a href="#" title="Добавить пост">
-                        <img src="plus.png"/>
-                    </a>
-                </div>
-
-                <div class="profile">
-                    <a href="#" title="Профиль">
-                        <img src="profile.png"/>
-                    </a>
-                </div>
-                <div class="searching">
-                    <a href="#" title="Поиск">
-                        <img src="searching.png"/>
-                    </a>
-                </div>
-                <!--<div class="drop"></div>-->
-            </nav>
-        </aside>
-
-        <section class="all-photos">
-            <article id="post_1" class="photo-post">
-                <div class="photo ">
-                    <img src="dog.jpg">
-                </div>
-                <nav class="info">
-                    <img class="user-icon-info" src="dog.jpg"/>
-                    <div class="user-info">
-                        <span>CoolDog</span>
-                    </div>
-                    <!--<span class="">Это я!</span>-->
-                    <div class="comments">
-                        <form class="form-comments">
-                            <textarea class="area-comments" placeholder="Добавьте комментарий..."></textarea>
-                        </form>
-                    </div>
-                    <button class="delete icon" type="button">
-                        <img src="garbage.png">
-                    </button>
-                    <button class="like icon" type="button">
-                        <img src="heart.png">
-                    </button>
-                    <button class="change icon" type="button">
-                        <img src="pen.png">
-                    </button>
-                </nav>
-            </article>
-
-            <article id="post_2" class="photo-post">
-                <div class="photo">
-                    <img src="cat.jpg">
-                </div>
-                <nav class="info">
-                    <img class="user-icon-info" src="dog.jpg"/>
-                    <div class="user-info">
-                        <span>CoolDog</span>
-                    </div>
-                    <!--<span class="">Это я!</span>-->
-                    <div class="comments">
-                        <form class="form-comments">
-                            <textarea class="area-comments" placeholder="Добавьте комментарий..."></textarea>
-                        </form>
-                    </div>
-                    <button class="delete icon" type="button">
-                        <img src="garbage.png">
-                    </button>
-                    <button class="like icon" type="button">
-                        <img src="heart.png">
-                    </button>
-                    <button class="change icon" type="button">
-                        <img src="pen.png">
-                    </button>
-                </nav>
-            </article>
-            <button class="load-photos" type="button">Загрузить ещё фото</button>
-        </section>
-
-        <footer>
-            <nav>
-                <span class="name-portal">
-                    PhotoPortal<br>
-                    04.03.2019<br>
-                </span>
-                <span class="about-portal">
-                    Охремук Алексей, 2 курс 5 группа<br>
-                    alexei.okhremuk@gmail.com<br>
-                </span>
-            </nav>
-
-        </footer>
-    </body>
-<script src = "functional.js"></script>
+        <div class="profile">
+            <a href="#" title="Профиль">
+                <img src="profile.png"/>
+            </a>
+        </div>
+        <div class="searching">
+            <a href="#" title="Поиск">
+                <img src="searching.png"/>
+            </a>
+        </div>
+    </nav>
+</aside>
+<section class="all-photos">
+</section>
+<button class="load-photos" type="button">Загрузить ещё фото</button>
+<footer>
+    <nav>
+        <span class="name-portal">
+            PhotoPortal<br>
+            04.03.2019<br>
+        </span>
+        <span class="about-portal">
+            Охремук Алексей, 2 курс 5 группа<br>
+            alexei.okhremuk@gmail.com<br>
+        </span>
+    </nav>
+</footer>
+</body>
+<script src = "View.js"></script>
+<script src = "Model.js"></script>
+<script src = "Controller.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 </html>
