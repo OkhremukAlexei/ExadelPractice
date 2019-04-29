@@ -348,4 +348,3 @@ class Section {
   }
 }
 PostCollection.restore();
-

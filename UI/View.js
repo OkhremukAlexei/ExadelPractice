@@ -40,7 +40,6 @@ class View {
     profilePhotos.remove();
     profileInfo.remove();
   }
-
   static edit(id, post) {
     const photoPost = document.getElementById(id);
     if (post.photoLink) {

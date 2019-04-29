@@ -253,6 +253,8 @@ class PostCollection {
 
   addPhotoPost(post) {
     if (this.getPhotoPost(post.id) || !PostCollection.validatePhotoPost(post)) {
+  addPhotoPost(post) {
+    if (this.getPhotoPost(post.id) || !PostCollection._validatePhotoPost(post)) {
       return false;
     }
     this._photoPosts.push(post);
