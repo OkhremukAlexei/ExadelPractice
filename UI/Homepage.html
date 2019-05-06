@@ -1,123 +1,134 @@
 <!DOCTYPE html>
-<html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="StylesHomepage.css">
-        <title>Лента</title>
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="StylesHomepage.css">
+
+    <title>Лента</title>
     </head>
-    <body>
-        <header>
-            <nav>
-                <div class="page-icon">
-                    <a href="Homepage.html" title="PhotoPortal">
-                        <img src="клевер.png"/>
-                        Лента
-                    </a>
+<body>
+<header>
+    <nav>
+        <div class="page-icon">
 
-                </div>
-                <div class="user-icon">
-                    <a href="#" title="Профиль">
-                        <img src="dog.jpg"/>
-                        CoolDog
-                    </a>
-                </div>
-                <div class="log-in">
-                    <a href="#" title="Войти">
-                        <img src="log_in.png"/>
-                    </a>
-                </div>
-            </nav>
-        </header>
-        <aside>
-            <nav>
-                <div class="add-post" >
-                    <a href="#" title="Добавить пост">
-                        <img src="plus.png"/>
-                    </a>
-                </div>
+            <img src="клевер.png"/>
+            <a href="#" title="PhotoPortal">
+                <span>Лента</span>
+            </a>
+        </div>
+        <div class="user-icon">
+            <a href="#" title="Профиль">
+                <span></span>
+            </a>
+        </div>
+        <div class="log-in">
+            <a href="#" title="Войти">
+                <img src="log_in.png"/>
+            </a>
+        </div>
+    </nav>
+</header>
+<aside>
+    <nav>
+        <div class="add-post" >
+            <a title="Добавить пост">
 
-                <div class="profile">
-                    <a href="#" title="Профиль">
-                        <img src="profile.png"/>
-                    </a>
-                </div>
-                <div class="searching">
-                    <a href="#" title="Поиск">
-                        <img src="searching.png"/>
-                    </a>
-                </div>
-            </nav>
-        </aside>
+                <img src="plus.png"/>
+            </a>
+        </div>
 
-        <section class="all-photos">
-            <article id="post_1" class="photo-post">
-                <div class="photo ">
-                    <img src="dog.jpg">
-                </div>
-                <nav class="info">
-                    <img class="user-icon-info" src="dog.jpg"/>
-                    <div class="user-info">
-                        <span>CoolDog</span>
-                    </div>
-                    <!--<span class="">Это я!</span>-->
-                    <div class="comments">
-                        <form class="form-comments">
-                            <textarea class="area-comments" placeholder="Добавьте комментарий..."></textarea>
-                        </form>
-                    </div>
-                    <button class="delete icon" type="button">
-                        <img src="garbage.png">
-                    </button>
-                    <button class="like icon" type="button">
-                        <img src="heart.png">
-                    </button>
-                    <button class="change icon" type="button">
-                        <img src="pen.png">
-                    </button>
-                </nav>
-            </article>
+        <div class="profile">
+            <a title="Профиль">
 
-            <article id="post_2" class="photo-post">
-                <div class="photo">
-                    <img src="cat.jpg">
-                </div>
-                <nav class="info">
-                    <img class="user-icon-info" src="dog.jpg"/>
-                    <div class="user-info">
-                        <span>CoolDog</span>
-                    </div>
-                    <!--<span class="">Это я!</span>-->
-                    <div class="comments">
-                        <form class="form-comments">
-                            <textarea class="area-comments" placeholder="Добавьте комментарий..."></textarea>
-                        </form>
-                    </div>
-                    <button class="delete icon" type="button">
-                        <img src="garbage.png">
-                    </button>
-                    <button class="like icon" type="button">
-                        <img src="heart.png">
-                    </button>
-                    <button class="change icon" type="button">
-                        <img src="pen.png">
-                    </button>
-                </nav>
-            </article>
-            <button class="load-photos" type="button">Загрузить ещё фото</button>
-        </section>
 
-        <footer>
-            <nav>
-                <span class="name-portal">
-                    PhotoPortal<br>
-                    04.03.2019<br>
-                </span>
-                <span class="about-portal">
-                    Охремук Алексей, 2 курс 5 группа<br>
-                    alexei.okhremuk@gmail.com<br>
-                </span>
-            </nav>
+                <img src="profile.png"/>
+            </a>
+        </div>
+        <div class="searching">
 
-        </footer>
-    </body>
+            <a title="Поиск">
+                <img src="searching.png"/>
+            </a>
+        </div>
+    </nav>
+</aside>
+<main>
+    <article id="profile">
+        <div id="profile-info">
+        </div>
+        <div id="profile-photos">
+        </div>
+    </article>
+    <article id="searching">
+        <form>
+            <label>
+                По хэштегу или автору
+                <input type="search"/>
+            </label>
+            <label>
+                По дате
+                <input type="date"/>
+            </label>
+            <button id="search" >Поиск</button>
+        </form>
+    </article>
+    <section class="all-photos">
+        <button class="load-photos" type="button">Загрузить ещё фото</button>
+    </section>
+    <article id="edit">
+        <form>
+            <input id="edit-description" type="text" />
+            <input id="edit-hashtags" type="text" />
+            <button id="edit-enter"><p>Изменить пост</p></button>
+        </form>
+    </article>
+    <article id="authorization">
+        <form>
+            <input id="login" type="text" placeholder="Введите логин" required="required"/>
+            <input id="password" type="password" placeholder="Введите пароль" required="required"/>
+            <button id="enter"><p>LOG IN</p></button>
+        </form>
+    </article>
+    <article id="adding">
+        <div class="default-img">
+            <img src="default-img.png"/>
+        </div>
+        <nav id="filters">
+            <img class="grayscale" src="cat.jpg" height="35%" width="100%"/>
+            <img class="brightness" src="cat.jpg" height="35%" width="100%"/>
+            <img class="contrast" src="cat.jpg" height="35%" width="100%"/>
+            <img class="hue-rotate" src="cat.jpg" height="35%" width="100%"/>
+            <img class="saturate" src="cat.jpg" height="35%" width="100%"/>
+            <img class="sepia" src="cat.jpg" height="35%" width="100%"/>
+        </nav>
+        <form id="adding-form">
+            <input id="description" type="text" placeholder="Добавьте описание" required="required">
+            <input id="hashtags" type="text" placeholder="Добавьте хэштеги">
+            <div class="upload">
+                <label>
+                <input id="load-photo" type="file" accept="image/*" required="required">
+                Загрузить фото
+                </label>
+            </div>
+        </form>
+    </article>
+    <button class="load-photo" type="button"><p>Добавить пост</p></button>
+
+</main>
+<footer>
+    <nav>
+        <span class="name-portal">
+            PhotoPortal<br>
+            04.03.2019<br>
+        </span>
+        <span class="about-portal">
+            Охремук Алексей, 2 курс 5 группа<br>
+            alexei.okhremuk@gmail.com<br>
+        </span>
+    </nav>
+</footer>
+</body>
+<script src = "Model.js"></script>
+<script src = "View.js"></script>
+<script src="Controller.js"></script>
 </html>
