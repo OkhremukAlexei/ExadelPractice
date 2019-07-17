@@ -147,7 +147,7 @@ public class PostServiceImpl implements PostsService {
         if (index != -1) post.getLikes().remove(user);
     }
 
-    public boolean isHasUserLike(int id, String user) {
+    public boolean isHasUserLike(int id, String user) throws NullPointerException {
         PhotoPost post = this.getPhotoPost(id);
         return post.getLikes().contains(user);
     }

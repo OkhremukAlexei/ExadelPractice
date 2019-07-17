@@ -19,7 +19,6 @@ public class ShowInfoFilter implements Filter {
             HttpServletRequest httpRequest = (HttpServletRequest)request;
             String method = httpRequest.getMethod();
             String url = httpRequest.getRequestURL().toString();
-            response.getOutputStream().println(String.format("%s %s - %dms", method, url, time));
         }
 
     }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,14 +19,15 @@ public class PhotoPostsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int top, skip;
-        if(request.getParameter("top") != null){
+        try {
             top = Integer.parseInt(request.getParameter("top"));
-        }else {
+        }catch (Exception e) {
             top = 10;
         }
-        if(request.getParameter("skip") != null){
+
+        try{
             skip = Integer.parseInt(request.getParameter("skip"));
-        }else {
+        }catch (Exception e) {
             skip = 0;
         }
 
@@ -38,11 +40,15 @@ public class PhotoPostsServlet extends HttpServlet {
         if (creationDate != null) {
             filter.put("creationDate", creationDate);
         }
+
         List<PhotoPost> res = new ArrayList<>(collection.getPhotoPosts(skip, top, filter));
-        if(res.size() == 0) {
+        try{
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println(collection.toJsonString(res));
+        }catch (Exception e) {
             response.getOutputStream().println("Not found");
-        }else {
-            response.getOutputStream().println(collection.toJsonString(res));
         }
     }
 }

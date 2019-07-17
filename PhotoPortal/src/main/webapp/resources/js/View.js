@@ -17,7 +17,7 @@ class View {
         photosEl.setAttribute('id', 'profile-photos');
         posts.forEach((post) => {
             photosEl.prepend(View.buildPhoto(post));
-        hashtags.push(post.hashTags);
+        hashtags.push(post.hashtags);
         amount++;
     });
         container.prepend(photosEl);
@@ -45,9 +45,9 @@ class View {
         if (post.photoLink) {
             photoPost.querySelector('img').setAttribute('src', `${post.photoLink}`);
         }
-        if (post.hashTags) {
+        if (post.hashtags) {
             const tags = photoPost.querySelector('.hashtags');
-            tags.innerHTML = `${post.hashTags.map(tag => `<a href="#">${tag} </a>`).join('')}`;
+            tags.innerHTML = `${post.hashtags.map(tag => `<a href="#">${tag} </a>`).join('')}`;
         }
         if (post.description) {
             photoPost.querySelector('h4 > span').innerHTML = `${post.description}`;
@@ -69,7 +69,7 @@ class View {
               </div>
               <div class="all-comments comments">
                 <h4>${post.author}: <span>${post.description}</span></h4>
-                <span class="hashtags"> ${post.hashTags.map(tag => `<a href="${tag}">${tag} </a>`).join('')}
+                <span class="hashtags"> ${post.hashtags.map(tag => `<a href="${tag}">${tag} </a>`).join('')}
                 </span>
               </div>
               <div class="add-comments comments">
