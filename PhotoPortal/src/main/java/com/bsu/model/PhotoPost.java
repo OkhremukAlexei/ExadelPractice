@@ -1,4 +1,4 @@
-package com.bsu.entity;
+package com.bsu.model;
 
 import org.json.simple.JSONObject;
 
@@ -12,6 +12,8 @@ public class PhotoPost {
     private String creationDate;
     private List<String> likes;
     private List<String> hashtags;
+
+    public PhotoPost() {}
 
     public PhotoPost(int id, String author, String description, String photoLink,
         String creationDate, List<String> likes, List<String> hashtags) {
@@ -84,5 +86,21 @@ public class PhotoPost {
         json.put("likes", likes.toString());
         json.put("hashtags", hashtags.toString());
         return json.toString();
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (this == o)
+            return true;
+        if(o == null || getClass() != o.getClass())
+            return false;
+        PhotoPost post = (PhotoPost)o;
+        return id == post.id
+                && author.equals(post.author)
+                && description.equals(post.description)
+                && photoLink.equals(post.photoLink)
+                && creationDate.equals(post.creationDate)
+                && likes.equals(post.likes)
+                && hashtags.equals(post.hashtags);
     }
 }

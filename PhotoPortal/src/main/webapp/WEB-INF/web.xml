@@ -3,7 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
     <servlet>
         <servlet-name>CheckAppServlet</servlet-name>
         <servlet-class>com.bsu.testServlets.CheckAppServlet</servlet-class>
@@ -41,6 +43,10 @@
         <servlet-class>com.bsu.servlet.PhotoPostsServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>EditPhotoPost</servlet-name>
+        <servlet-class>com.bsu.servlet.EditPhotoPost</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>UserServlet</servlet-name>
         <servlet-class>com.bsu.servlet.UserServlet</servlet-class>
     </servlet>
@@ -49,9 +55,10 @@
         <servlet-class>com.bsu.servlet.LikeServlet</servlet-class>
     </servlet>
 
+
     <servlet-mapping>
         <servlet-name>CheckAppServlet</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/app</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CheckStatusServlet</servlet-name>
@@ -82,6 +89,10 @@
         <url-pattern>/photo-post</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>EditPhotoPost</servlet-name>
+        <url-pattern>/photo-post/edit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>PhotoPostsServlet</servlet-name>
         <url-pattern>/photo-posts</url-pattern>
     </servlet-mapping>
@@ -109,8 +120,4 @@
         <filter-name>ShowInfoFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
-    <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
 </web-app>

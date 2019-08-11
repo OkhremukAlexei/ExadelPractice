@@ -1,11 +1,11 @@
+let start = true;
+
 class Controller {
-    static testCollection;
-    constructor(photoPosts){
-        Controller.testCollection = new PostCollection(photoPosts);
-        Controller.addAll();
+    constructor(posts){
         new Header();
         new Aside();
         new Section();
+        Controller.addAll(posts);
     }
 
     static getRealDate() {
@@ -15,11 +15,16 @@ class Controller {
         let month = date.getMonth() + 1;
         if (month < 10) month = '0' + month;
         let year = date.getFullYear();
-        return year + '-' + month + '-' + day;
+        return day + '-' + month + '-' + year;
     }
 
-    static addAll() {
-        View.viewPosts(Controller.testCollection.getPhotoPosts());
+    static async addAll(photoPosts) {
+        if(!!photoPosts)
+            View.viewPosts(photoPosts);
+        else {
+            const posts = await PostService.getPhotoPosts(0, 50);
+            View.viewPosts(posts);
+        }
     }
 }
 
@@ -44,7 +49,7 @@ class User {
         Header.UserIcon = document.querySelector('.user-icon');
         Header.UserIcon.addEventListener('click', Header.goToProfile);
         Header.goToHomePage();
-        PostCollection.save();
+        PostService.save();
     }
 }
 
@@ -61,34 +66,32 @@ class Post {
         Post.load.addEventListener('change', Post.setPhoto);
         Post.filters.forEach((filter) =>{
             filter.addEventListener('click', Post.setFilter);
-    });
+        });
     }
 
-    static setPost() {
+    static async setPost() {
         let hashtags = (!!Post.hashtags.value) ? Post.hashtags.value.split(' ') : [];
         let post = {
             id: new Date().getMilliseconds().toString(),
             description: Post.description.value,
-            creationDate: Controller.getRealDate(),   //fix
+            creationDate: Controller.getRealDate(),
             author: User.user,
             photoLink: Post.img.src,
             likes: [],
-            hashTags: hashtags,
+            hashtags: hashtags,
         };
-        if (PostCollection.validatePhotoPost(post)) {
-            Controller.testCollection.addPhotoPost(post);
+        if (await PostService.addPhotoPost(post)) {
             View.addPost(post);
             View.addFilter(post, Post.img.classList);
             Post.description.value = '';
             Post.hashtags.value = '';
-            Post.img.setAttribute('src', 'default-img.png');
+            Post.img.setAttribute('src', 'resources/images/default-img.png');
 
             Header.goToHomePage();
             Post.filters.forEach((filter) =>{
-                filter.setAttribute('src', 'cat.jpg');
-        });
-
-            PostCollection.save();
+                filter.setAttribute('src', 'resources/images/cat.jpg');
+            });
+            PostService.save();
         }
         else {
             alert("Проверьте введённые данные");
@@ -150,13 +153,13 @@ class Header {
         if (User.user) User.user = null;
         View.show(User.auth);
         new User();
-        PostCollection.save();
+        PostService.save();
         // User.authForm.removeEventListener('submit', User.setUser);
     }
 
-    static goToProfile() {
+    static async goToProfile() {
         View.clearContainer(Aside.profile);
-        View.viewPhotosProfile(Controller.testCollection.getPhotoPosts(0, Controller.testCollection.getAmountPosts(),
+        View.viewPhotosProfile(await PostService.getPhotoPosts(0, 10,
             {'author': User.user}), User.user, Aside.profile);
         Header.title.innerText = 'Профиль';
         if (!User.user) Header.goToAuthorization();
@@ -210,22 +213,22 @@ class Aside {
             View.hide(Aside.searchingBlock);
     }
 
-    static doSearch(event) {
+    static async doSearch(event) {
         event.preventDefault();
         const filter = Aside.searchByAuthor.value.trim();
         const date = Aside.searchByDate.value;
-        const all = Controller.testCollection.getPhotoPosts(0, Controller.testCollection.getAmountPosts());
+        const all = await PostService.getPhotoPosts(0, 10);
         let findPosts;
         if(!!Aside.searchByAuthor.value){
             if(filter.charAt[0] === '#'){
-                findPosts = Controller.testCollection.getPhotoPosts(0, 10, {'hashTags': filter});
+                findPosts = await PostService.getPhotoPosts(0, 10, {'hashtags': filter});
                 all.forEach((post) => {
                     if (findPosts.findIndex((postFilter) => post.id === postFilter.id) === -1)
                 View.removePost(post.id)
             });
             }
             else {
-                const findPosts = Controller.testCollection.getPhotoPosts(0, 10, {'author': filter});
+                const findPosts = await PostService.getPhotoPosts(0, 10, {'author': filter});
                 all.forEach((post) => {
                     if (findPosts.findIndex((postFilter) => post.id === postFilter.id) === -1)
                 View.removePost(post.id)
@@ -253,7 +256,7 @@ class Section {
     static currentAmount;
 
     constructor() {
-        Section.currentAmount = Controller.testCollection.getAmountPosts() >= 10 ? 10 : Controller.testCollection.getAmountPosts();
+        Section.currentAmount = 10;
         Section.posts.addEventListener('click', Section.deletePost, false);
         Section.posts.addEventListener('click', Section.editPost, false);
         Section.posts.addEventListener('click', Section.likePost, false);
@@ -261,23 +264,34 @@ class Section {
         Section.pagination.addEventListener('click', Section.doPagination);
     }
 
-    static deletePost(event) {
+    static async deletePost(event) {
         const elem = event.target;
+
         if (elem.className === 'delete icon') {
-            if (User.user === event.path[1].children[1].childNodes[1].innerText) {
+            const path = event.path[1].children[1].childNodes[1];
+
+            if (User.user === path.innerText) {
                 if (confirm("Вы точно хотите удалить этот пост?")) {
-                    Controller.testCollection.removePhotoPost(event.path[2].id);
-                    View.removePost(event.path[2].id);
+                    try {
+                        await PostService.removePhotoPost(event.path[2].id);
+                        View.removePost(event.path[2].id);
+                        PostService.save();
+                    }catch (e) {
+                        alert("Error");
+                    }
                 }
             }
         }
-        PostCollection.save();
+
     }
 
     static editPost(event) {
         const elem = event.target;
+
+
         if (elem.className === 'change icon') {
-            if (User.user === event.path[1].children[1].childNodes[1].innerText) {
+            const userPath = event.path[1].children[1].childNodes[1];
+            if (User.user === userPath.innerText) {
                 View.show(Section.edit);
                 Section.editEnter.addEventListener('submit', Section.doEdit.bind(null, event.path[2].id,
                     event.path[1].children[2].children[0].children[0], event.path[1].children[2].children[1],
@@ -286,65 +300,67 @@ class Section {
         }
     }
 
-    static doEdit(id, descriptionTag, hashtagsTag, dateTag) {
+    static async doEdit(id, descriptionTag, hashtagsTag, dateTag) {
         const description = Section.editDescription.value;
         const hashtags = Section.editHashtags.value.split(' ');
-        if(Controller.testCollection.editPhotoPost(id, {'description': description, 'hashTags': hashtags})) {
+        if(await PostService.editPhotoPost(id, {'description': description, 'hashtags': hashtags})) {
             descriptionTag.innerText = description;
-            hashtagsTag.innerHTML = hashtags.map(tag => `<a href="${tag}">${tag} </a>`).join('');
+            hashtagsTag.innerHTML = hashtags;
             dateTag.innerText = Controller.getRealDate();
-            PostCollection.save();
+            PostService.save();
         }
         View.hide(Section.edit);
     }
 
-    static likePost(event) {
+    static async likePost(event) {
         const elem = event.target;
 
         if (elem.className === 'like icon' && !!User.user) {
+            const path = event.path[0].children[0];
+            const isHasLike = await PostService.changeLike(event.path[2].id, User.user);
             View.noneScaleLike(elem);
-            if (!Controller.testCollection.isHasUserLike(event.path[2].id, User.user)) {
-                event.path[0].children[0].innerText = parseInt(event.path[0].children[0].innerText) + 1;
-                Controller.testCollection.addLike(event.path[2].id, User.user);
-                PostCollection.save();
+            if (isHasLike === false) {
+                path.innerText = parseInt(path.innerText) + 1;
+                PostService.save();
             } else {
-                event.path[0].children[0].innerText = parseInt(event.path[0].children[0].innerText) - 1;
-                Controller.testCollection.removeLike(event.path[2].id, User.user);
-                PostCollection.save();
+                path.innerText = parseInt(path.innerText) - 1;
+                PostService.save();
             }
             View.scaleLike(elem);
         }
 
     }
 
-    static showByHashtags(event) {
+    static async showByHashtags(event) {
         const elem = event.target;
         if (elem.tagName === 'A') {
-            const filter = [];
-            filter.push(event.target.innerText.trim());
-            const findPosts = Controller.testCollection.getPhotoPosts(0, 10, {'hashTags': filter});
-            const all = Controller.testCollection.getPhotoPosts(0, Controller.testCollection.getAmountPosts());
+            const filter = event.target.innerText.trim();
+            const findPosts = await PostService.getPhotoPosts(0, 10, {'hashtags': filter});
+            const all = await PostService.getPhotoPosts(0, 10); // why???
             all.forEach((post) => {
                 if (findPosts.findIndex((postFilter) => post.id === postFilter.id) === -1)
-            View.removePost(post.id)
-        });
+                View.removePost(post.id)
+            });
         }
     }
 
     static doPagination() {
-        let posts;
-        if(Controller.testCollection.getAmountPosts() - Section.currentAmount > 10) {
-            posts = Controller.testCollection.getPhotoPosts(Section.currentAmount, 10);
-            Section.currentAmount += 10;
-        }
-        else {
-            posts = Controller.testCollection.getPhotoPosts(Section.currentAmount, Controller.testCollection.getAmountPosts() - Section.currentAmount);
-            Section.currentAmount += Controller.testCollection.getAmountPosts() - Section.currentAmount;
-        }
-        if(!!posts)
-            View.viewPosts(posts);
-        if(Controller.testCollection.getAmountPosts() === Section.currentAmount)
-            View.hide(Section.pagination);
+        // let posts;
+        // if(Controller.testCollection.getAmountPosts() - Section.currentAmount > 10) {
+        //     posts = Controller.testCollection.getPhotoPosts(Section.currentAmount, 10);
+        //     Section.currentAmount += 10;
+        // }
+        // else {
+        //     posts = Controller.testCollection.getPhotoPosts(Section.currentAmount, Controller.testCollection.getAmountPosts() - Section.currentAmount);
+        //     Section.currentAmount += Controller.testCollection.getAmountPosts() - Section.currentAmount;
+        // }
+        // if(!!posts)
+        //     View.viewPosts(posts);
+        // if(Controller.testCollection.getAmountPosts() === Section.currentAmount)
+        //     View.hide(Section.pagination);
     }
 }
-PostCollection.restore();
+if(start) {
+    PostService.restore();
+    start = false;
+}

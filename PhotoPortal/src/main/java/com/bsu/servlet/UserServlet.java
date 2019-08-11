@@ -1,6 +1,6 @@
 package com.bsu.servlet;
 
-import com.bsu.entity.User;
+import com.bsu.model.User;
 import com.bsu.service.Impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class UserServlet extends HttpServlet {
     private UserServiceImpl users = new UserServiceImpl();
@@ -17,10 +18,15 @@ public class UserServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         User user = users.loginUser(login, password);
+
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
         if(user != null){
-            response.getOutputStream().println(user.toString());
+            out.println(user.toString());
         }else {
-            response.getOutputStream().println("Wrong data");
+            out.println("Wrong data");
         }
     }
 
@@ -29,10 +35,15 @@ public class UserServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         User user = new User(login, password);
+
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
         if(users.registerUser(user)){
-            response.getOutputStream().println("User has been successfully created");
+            out.println("User has been successfully created");
         }else {
-            response.getOutputStream().println("This user already exist");
+            out.println("This user already exist");
         }
     }
 }
