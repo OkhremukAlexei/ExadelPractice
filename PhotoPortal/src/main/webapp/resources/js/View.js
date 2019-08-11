@@ -97,6 +97,7 @@ class View {
     }
 
     static buildInfo(user, amount, hashtags) {
+        
         const infoEl = document.createElement('div');
         infoEl.setAttribute('id', 'profile-info');
         infoEl.innerHTML = `<div><p>${user}</p>

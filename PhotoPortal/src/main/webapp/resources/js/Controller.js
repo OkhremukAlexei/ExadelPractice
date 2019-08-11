@@ -1,9 +1,11 @@
+let start = true;
+
 class Controller {
-    constructor(){
+    constructor(posts){
         new Header();
         new Aside();
         new Section();
-        Controller.addAll();
+        Controller.addAll(posts);
     }
 
     static getRealDate() {
@@ -16,9 +18,13 @@ class Controller {
         return day + '-' + month + '-' + year;
     }
 
-    static async addAll() {
-        const posts = await PostService.getPhotoPosts(0, 50);
-        View.viewPosts(posts);
+    static async addAll(photoPosts) {
+        if(!!photoPosts)
+            View.viewPosts(photoPosts);
+        else {
+            const posts = await PostService.getPhotoPosts(0, 50);
+            View.viewPosts(posts);
+        }
     }
 }
 
@@ -60,7 +66,7 @@ class Post {
         Post.load.addEventListener('change', Post.setPhoto);
         Post.filters.forEach((filter) =>{
             filter.addEventListener('click', Post.setFilter);
-    });
+        });
     }
 
     static async setPost() {
@@ -68,7 +74,7 @@ class Post {
         let post = {
             id: new Date().getMilliseconds().toString(),
             description: Post.description.value,
-            creationDate: Controller.getRealDate(), 
+            creationDate: Controller.getRealDate(),
             author: User.user,
             photoLink: Post.img.src,
             likes: [],
@@ -268,12 +274,15 @@ class Section {
                 if (confirm("Вы точно хотите удалить этот пост?")) {
                     try {
                         await PostService.removePhotoPost(event.path[2].id);
-                    }catch (e) {}
-                    View.removePost(event.path[2].id);
+                        View.removePost(event.path[2].id);
+                        PostService.save();
+                    }catch (e) {
+                        alert("Error");
+                    }
                 }
             }
         }
-        PostService.save();
+
     }
 
     static editPost(event) {
@@ -291,15 +300,15 @@ class Section {
         }
     }
 
-    static doEdit(id, descriptionTag, hashtagsTag, dateTag) {
+    static async doEdit(id, descriptionTag, hashtagsTag, dateTag) {
         const description = Section.editDescription.value;
         const hashtags = Section.editHashtags.value.split(' ');
-        // if(Controller.testCollection.editPhotoPost(id, {'description': description, 'hashtags': hashtags})) {
-        //     descriptionTag.innerText = description;
-        //     hashtagsTag.innerHTML = hashtags.map(tag => `<a href="${tag}">${tag} </a>`).join('');
-        //     dateTag.innerText = Controller.getRealDate();
-        //     PostService.save();
-        // }
+        if(await PostService.editPhotoPost(id, {'description': description, 'hashtags': hashtags})) {
+            descriptionTag.innerText = description;
+            hashtagsTag.innerHTML = hashtags;
+            dateTag.innerText = Controller.getRealDate();
+            PostService.save();
+        }
         View.hide(Section.edit);
     }
 
@@ -308,7 +317,6 @@ class Section {
 
         if (elem.className === 'like icon' && !!User.user) {
             const path = event.path[0].children[0];
-
             const isHasLike = await PostService.changeLike(event.path[2].id, User.user);
             View.noneScaleLike(elem);
             if (isHasLike === false) {
@@ -326,10 +334,9 @@ class Section {
     static async showByHashtags(event) {
         const elem = event.target;
         if (elem.tagName === 'A') {
-            const filter = [];
-            filter.push(event.target.innerText.trim());
+            const filter = event.target.innerText.trim();
             const findPosts = await PostService.getPhotoPosts(0, 10, {'hashtags': filter});
-            const all = await PostService.getPhotoPosts(0, 10);
+            const all = await PostService.getPhotoPosts(0, 10); // why???
             all.forEach((post) => {
                 if (findPosts.findIndex((postFilter) => post.id === postFilter.id) === -1)
                 View.removePost(post.id)
@@ -353,4 +360,7 @@ class Section {
         //     View.hide(Section.pagination);
     }
 }
-PostService.restore();
+if(start) {
+    PostService.restore();
+    start = false;
+}

@@ -1,6 +1,6 @@
 package com.bsu.service;
 
-import com.bsu.entity.User;
+import com.bsu.model.User;
 
 public interface UsersService {
     User loginUser(String login, String password);

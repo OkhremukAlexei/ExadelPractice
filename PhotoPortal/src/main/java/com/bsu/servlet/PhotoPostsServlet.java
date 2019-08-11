@@ -1,7 +1,8 @@
 package com.bsu.servlet;
 
-import com.bsu.entity.PhotoPost;
-import com.bsu.service.Impl.PostServiceImpl;
+import com.bsu.model.PhotoPost;
+import com.bsu.service.Impl.ConnectionPoolImpl;
+import com.bsu.service.Impl.DBPostServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,9 +16,9 @@ import java.util.List;
 import java.util.Map;
 
 public class PhotoPostsServlet extends HttpServlet {
-    private PostServiceImpl collection = new PostServiceImpl();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         int top, skip;
         try {
             top = Integer.parseInt(request.getParameter("top"));
@@ -33,22 +34,32 @@ public class PhotoPostsServlet extends HttpServlet {
 
         String author = request.getParameter("author");
         String creationDate = request.getParameter("creationDate");
-        Map<String, String> filter = new HashMap<>();
+        String hashtag = request.getParameter("hashtags");
+        Map<String, Object> filter = new HashMap<>();
         if(author != null) {
             filter.put("author", author);
         }
         if (creationDate != null) {
             filter.put("creationDate", creationDate);
         }
+        if (hashtag != null && !hashtag.equals("")) {
+            filter.put("hashtags", "#" + hashtag);
+        }
 
-        List<PhotoPost> res = new ArrayList<>(collection.getPhotoPosts(skip, top, filter));
-        try{
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
+        DBPostServiceImpl collection = new DBPostServiceImpl();
+
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        try {
+            List<PhotoPost> res = new ArrayList<>(collection.getPhotoPosts(skip, top, filter));
+
             out.println(collection.toJsonString(res));
-        }catch (Exception e) {
-            response.getOutputStream().println("Not found");
+        } catch (Exception e) {
+            out.println("Not found");
+        } finally {
+            ConnectionPoolImpl.getPool().releaseConnection(collection.getPhotoPostDao().getConnection());
         }
     }
 }

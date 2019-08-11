@@ -1,6 +1,6 @@
 package com.bsu.repository;
 
-import com.bsu.entity.User;
+import com.bsu.model.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;

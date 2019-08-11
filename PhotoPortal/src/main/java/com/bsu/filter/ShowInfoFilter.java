@@ -17,8 +17,6 @@ public class ShowInfoFilter implements Filter {
             long end = System.currentTimeMillis();
             long time = end - start;
             HttpServletRequest httpRequest = (HttpServletRequest)request;
-            String method = httpRequest.getMethod();
-            String url = httpRequest.getRequestURL().toString();
         }
 
     }

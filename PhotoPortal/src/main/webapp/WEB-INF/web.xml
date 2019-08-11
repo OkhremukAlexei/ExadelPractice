@@ -43,6 +43,10 @@
         <servlet-class>com.bsu.servlet.PhotoPostsServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>EditPhotoPost</servlet-name>
+        <servlet-class>com.bsu.servlet.EditPhotoPost</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>UserServlet</servlet-name>
         <servlet-class>com.bsu.servlet.UserServlet</servlet-class>
     </servlet>
@@ -50,6 +54,7 @@
         <servlet-name>LikeServlet</servlet-name>
         <servlet-class>com.bsu.servlet.LikeServlet</servlet-class>
     </servlet>
+
 
     <servlet-mapping>
         <servlet-name>CheckAppServlet</servlet-name>
@@ -82,6 +87,10 @@
     <servlet-mapping>
         <servlet-name>PhotoPostServlet</servlet-name>
         <url-pattern>/photo-post</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditPhotoPost</servlet-name>
+        <url-pattern>/photo-post/edit</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PhotoPostsServlet</servlet-name>

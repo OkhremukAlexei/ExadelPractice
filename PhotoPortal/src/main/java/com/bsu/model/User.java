@@ -1,4 +1,4 @@
-package com.bsu.entity;
+package com.bsu.model;
 
 import org.json.simple.JSONObject;
 
@@ -8,7 +8,6 @@ public class User {
 
     public User(String username, String password) {
         this.username = username;
-        // Хэширование пароля сделаю позже
         this.password = password;
     }
 

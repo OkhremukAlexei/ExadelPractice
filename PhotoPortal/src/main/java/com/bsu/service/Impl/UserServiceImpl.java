@@ -1,6 +1,6 @@
 package com.bsu.service.Impl;
 
-import com.bsu.entity.User;
+import com.bsu.model.User;
 import com.bsu.repository.UsersSingleton;
 import com.bsu.service.UsersService;
 

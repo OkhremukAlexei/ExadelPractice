@@ -1,6 +1,6 @@
 package com.bsu.servlet;
 
-import com.bsu.entity.User;
+import com.bsu.model.User;
 import com.bsu.service.Impl.UserServiceImpl;
 
 import javax.servlet.ServletException;

@@ -1,6 +1,6 @@
 package com.bsu.repository;
 
-import com.bsu.entity.PhotoPost;
+import com.bsu.model.PhotoPost;
 
 import java.util.ArrayList;
 import java.util.Arrays;

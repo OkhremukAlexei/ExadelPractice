@@ -1,8 +1,8 @@
 package com.bsu.servlet;
 
-import com.bsu.service.Impl.PostServiceImpl;
+import com.bsu.service.Impl.ConnectionPoolImpl;
+import com.bsu.service.Impl.DBPostServiceImpl;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,27 +10,32 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class LikeServlet extends HttpServlet {
-    private PostServiceImpl collection = new PostServiceImpl();
+
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        DBPostServiceImpl collection = new DBPostServiceImpl();
+
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             String user = request.getParameter("user");
 
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-
             if (collection.isHasUserLike(id, user)) {
-                out.println(true);
                 collection.removeLike(id, user);
+                out.println(true);
             } else {
-                out.println(false);
                 collection.addLike(id, user);
+                out.println(false);
             }
         }catch (Exception e) {
-            response.getOutputStream().print("Error");
+            out.print("Error");
+        } finally {
+            ConnectionPoolImpl.getPool().releaseConnection(
+                    collection.getPhotoPostDao().getConnection());
         }
     }
 }

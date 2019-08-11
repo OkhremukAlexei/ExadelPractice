@@ -1,7 +1,8 @@
 package com.bsu.servlet;
 
-import com.bsu.entity.PhotoPost;
-import com.bsu.service.Impl.PostServiceImpl;
+import com.bsu.model.PhotoPost;
+import com.bsu.service.Impl.ConnectionPoolImpl;
+import com.bsu.service.Impl.DBPostServiceImpl;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -17,30 +18,39 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class PhotoPostServlet extends HttpServlet {
-    private PostServiceImpl collection = new PostServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        DBPostServiceImpl collection = new DBPostServiceImpl();
+
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             PhotoPost post = collection.getPhotoPost(id);
-
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-
             out.println(post.toString());
         } catch (NullPointerException e){
-            response.getOutputStream().println("Not found\n");
+            out.println("Not found\n");
+        } finally {
+            ConnectionPoolImpl.getPool().releaseConnection(
+                    collection.getPhotoPostDao().getConnection());
         }
 
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            InputStream in = request.getInputStream();
-            Scanner sc = new Scanner(in);
+        DBPostServiceImpl collection = new DBPostServiceImpl();
+
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        try (InputStream in = request.getInputStream();
+             Scanner sc = new Scanner(in)) {
+
             String data = sc.next();
             Gson gson = new Gson();
 
@@ -50,7 +60,7 @@ public class PhotoPostServlet extends HttpServlet {
             String description = "";
             String photoLink = "";
             ArrayList<String> hashtags = new ArrayList<>();
-            String creationDate = PostServiceImpl.buildCurrentDate().toString();
+            String creationDate = DBPostServiceImpl.buildCurrentDate().toString();
 
             for(Map.Entry<String, Object> pair : map.entrySet()) {
                 switch (pair.getKey()) {
@@ -76,28 +86,30 @@ public class PhotoPostServlet extends HttpServlet {
 
             PhotoPost post = new PhotoPost(id, author, description, photoLink, creationDate, new ArrayList<>(), hashtags);
 
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-
             if (collection.addPhotoPost(post)) {
                 out.println("Post has been successfully added\n");
             } else {
                 throw new Exception();
             }
         } catch (Exception e){
-            response.getOutputStream().println("Invalid post\n");
+            out.println("Invalid post\n");
+        } finally {
+            ConnectionPoolImpl.getPool().releaseConnection(
+                    collection.getPhotoPostDao().getConnection());
         }
     }
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            int id = Integer.parseInt(request.getParameter("id"));
+        DBPostServiceImpl collection = new DBPostServiceImpl();
 
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        try {
+            String data = request.getParameter("id");
+            int id = Integer.parseInt(data);
 
             if (collection.removePhotoPost(id)) {
                 out.println("Post has been successfully deleted\n");
@@ -105,7 +117,10 @@ public class PhotoPostServlet extends HttpServlet {
                 throw new Exception();
             }
         } catch (Exception e) {
-            response.setStatus(-1);
+            out.println("Error\n");
+        } finally {
+            ConnectionPoolImpl.getPool().releaseConnection(
+                    collection.getPhotoPostDao().getConnection());
         }
     }
 }
