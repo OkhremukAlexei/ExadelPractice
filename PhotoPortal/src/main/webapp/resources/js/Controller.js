@@ -1,5 +1,3 @@
-let start = true;
-
 class Controller {
     constructor(posts){
         new Header();
@@ -22,7 +20,7 @@ class Controller {
         if(!!photoPosts)
             View.viewPosts(photoPosts);
         else {
-            const posts = await PostService.getPhotoPosts(0, 50);
+            const posts = await PostService.getPhotoPosts(0, 10);
             View.viewPosts(posts);
         }
     }
@@ -305,7 +303,7 @@ class Section {
         const hashtags = Section.editHashtags.value.split(' ');
         if(await PostService.editPhotoPost(id, {'description': description, 'hashtags': hashtags})) {
             descriptionTag.innerText = description;
-            hashtagsTag.innerHTML = hashtags;
+            hashtagsTag.innerHTML = hashtags.join(" ");
             dateTag.innerText = Controller.getRealDate();
             PostService.save();
         }
@@ -360,7 +358,5 @@ class Section {
         //     View.hide(Section.pagination);
     }
 }
-if(start) {
-    PostService.restore();
-    start = false;
-}
+
+PostService.restore();

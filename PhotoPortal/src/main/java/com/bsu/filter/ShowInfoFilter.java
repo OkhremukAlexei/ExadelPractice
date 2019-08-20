@@ -6,12 +6,12 @@ import java.io.IOException;
 
 public class ShowInfoFilter implements Filter {
     private FilterConfig filterConfig;
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        if (this.filterConfig.getInitParameter("active").equalsIgnoreCase("true")) {
+        if (filterConfig.getInitParameter("active").equalsIgnoreCase("true")) {
             long start = System.currentTimeMillis();
             filterChain.doFilter(request, response);
             long end = System.currentTimeMillis();

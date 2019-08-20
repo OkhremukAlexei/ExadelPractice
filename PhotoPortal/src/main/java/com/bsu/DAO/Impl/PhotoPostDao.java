@@ -79,9 +79,79 @@ public class PhotoPostDao implements Dao<PhotoPost> {
         return post;
     }
 
+    public List<PhotoPost> getByDate(String date) {
+        String sql = "SELECT * FROM photo_portal.photo_post WHERE creation_date = (?);";
+        List<PhotoPost> list = new ArrayList<>();
+
+        try (PreparedStatement stm = connection.prepareStatement(sql);
+             ResultSet rs = stm.executeQuery()) {
+            stm.setDate(1, DBPostServiceImpl.toSqlDate(date));
+
+            while (rs.next()) {
+                PhotoPost post = new PhotoPost();
+                post.setId(rs.getInt("post_id"));
+                post.setDescription(rs.getString("description"));
+                post.setCreationDate(rs.getString("creation_date"));
+                post.setPhotoLink(rs.getString("photo_link"));
+                post.setAuthor(rs.getString("author"));
+                post.setLikes(new ArrayList<>());
+                post.setHashtags(new ArrayList<>());
+                list.add(post);
+            }
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        sql = "SELECT likes.post_id AS post_id, name FROM likes " +
+                "JOIN photo_post ON photo_post.post_id = likes.post_id ";
+        try (PreparedStatement stm = connection.prepareStatement(sql);
+             ResultSet rs = stm.executeQuery()) {
+            while (rs.next()) {
+                for(PhotoPost post : list) {
+                    if(post.getId() == rs.getInt("post_id")) {
+                        post.getLikes().add(rs.getString("name"));
+                        break;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        sql = "SELECT hashtags.post_id AS post_id, name FROM hashtags " +
+                "JOIN photo_post ON photo_post.post_id = hashtags.post_id ";
+        try (PreparedStatement stm = connection.prepareStatement(sql);
+             ResultSet rs = stm.executeQuery()) {
+            while (rs.next()) {
+                for(PhotoPost post : list) {
+                    if(post.getId() == rs.getInt("post_id")) {
+                        post.getHashtags().add(rs.getString("name"));
+                        break;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int getSize() {
+        String sql = "SELECT COUNT(*) AS amount FROM photo_post;";
+        int amount = 0;
+        try (PreparedStatement stm = connection.prepareStatement(sql);
+             ResultSet rs = stm.executeQuery()) {
+            rs.next();
+            amount = rs.getInt("amount");
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return amount;
+    }
+
     @Override
     public List<PhotoPost> getAll() {
-        String sql = "SELECT * FROM photo_post;";
+        String sql = "SELECT * FROM photo_portal.photo_post ORDER BY creation_date DESC;";
         List<PhotoPost> list = new ArrayList<>();
 
         try (PreparedStatement stm = connection.prepareStatement(sql);
@@ -132,6 +202,7 @@ public class PhotoPostDao implements Dao<PhotoPost> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return list;
     }
 

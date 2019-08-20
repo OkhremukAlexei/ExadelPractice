@@ -7,19 +7,25 @@ class View {
     }
 
     static viewPhotosProfile(posts, user, container) {
-        const hashtags = [];
-        let amount = 0;
         if (!posts) {
             container.innerHTML = '<h1>Вы не добавили ещё ни одного поста</h1>';
             return;
         }
+
+        let hashtags = posts[0].hashtags;
+        let amount = 0;
+
         const photosEl = document.createElement('div');
         photosEl.setAttribute('id', 'profile-photos');
         posts.forEach((post) => {
             photosEl.prepend(View.buildPhoto(post));
-        hashtags.push(post.hashtags);
-        amount++;
-    });
+            post.hashtags.forEach(tag => {
+                if(!hashtags.find(curr => curr === tag)) {
+                    hashtags.push(tag);
+                }
+            });
+            amount++;
+        });
         container.prepend(photosEl);
         container.prepend(View.buildInfo(user, amount, hashtags));
     }
@@ -40,6 +46,7 @@ class View {
         profilePhotos.remove();
         profileInfo.remove();
     }
+
     static edit(id, post) {
         const photoPost = document.getElementById(id);
         if (post.photoLink) {
@@ -97,13 +104,14 @@ class View {
     }
 
     static buildInfo(user, amount, hashtags) {
-        
         const infoEl = document.createElement('div');
         infoEl.setAttribute('id', 'profile-info');
         infoEl.innerHTML = `<div><p>${user}</p>
       <h1>Количество публикаций: <span id="amount">${amount}</span></h1>
-      <h1>Часто используемые хэштеги: <span id="often-used-hashtags">${hashtags}</span></h1></div>`;
-        return infoEl;
+      <h1>Часто используемые хэштеги:
+        <span id="often-used-hashtags">${hashtags.map(tag =>`<span> ${tag}</span>`).join('')}</span>
+      </h1></div>`;
+         return infoEl;
     }
     // static showUser(userProfile, profile, userName) {
     //   userProfile.style.display = 'block';

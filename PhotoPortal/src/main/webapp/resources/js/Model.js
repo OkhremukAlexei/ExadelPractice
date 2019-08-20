@@ -79,7 +79,7 @@ class PostService {
 
     static async save() {
         localStorage.removeItem('PostList');
-        localStorage.setItem('PostList', JSON.stringify(await PostService.getPhotoPosts(0, 30)));
+        localStorage.setItem('PostList', JSON.stringify(await PostService.getPhotoPosts(0, 10)));
         if (User.user) localStorage.setItem('userName', User.user);
     }
 
@@ -90,7 +90,7 @@ class PostService {
             new Controller();
         else
             new Controller(postList);
-        const jsonPosts = JSON.stringify(PostService.getPhotoPosts(0, 30));
+        const jsonPosts = JSON.stringify(PostService.getPhotoPosts(0, 10));
         localStorage.setItem('PostList', jsonPosts);
 
     }
