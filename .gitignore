@@ -4,3 +4,5 @@
 .idea/
 .mockups
 out/
+target/
+node_modules/
