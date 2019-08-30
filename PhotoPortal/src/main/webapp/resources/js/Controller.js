@@ -1,5 +1,3 @@
-let start = true;
-
 class Controller {
     constructor(posts){
         new Header();
@@ -22,7 +20,7 @@ class Controller {
         if(!!photoPosts)
             View.viewPosts(photoPosts);
         else {
-            const posts = await PostService.getPhotoPosts(0, 50);
+            const posts = await PostService.getPhotoPosts(0, 10);
             View.viewPosts(posts);
         }
     }
@@ -33,23 +31,32 @@ class User {
     static authForm = User.auth.querySelector('#authorization form');
     static userProfile = document.querySelector('.user-icon');
     static user;
-    static photoUser = '';
     constructor() {
         User.authForm.addEventListener('submit', User.setUser);
     }
 
-    static setUser() {
-        User.user = document.querySelector('#login').value;
-        // User.password = document.querySelector('#password').value;
-        User.userProfile.querySelector('span').innerText = User.user;
-        if(!!User.user)
-            User.userProfile.querySelector('span').innerText = User.user;
-        Aside.profileInfo = Aside.profile.querySelector('#profile-info');
-        Aside.profilePhotos = Aside.profile.querySelector('#profile-photos');
-        Header.UserIcon = document.querySelector('.user-icon');
-        Header.UserIcon.addEventListener('click', Header.goToProfile);
-        Header.goToHomePage();
-        PostService.save();
+    static async setUser() {
+        let user = document.querySelector('#login').value;
+        let bpassword = btoa(document.querySelector('#password').value);
+
+        try {
+            await LoginService.login(user, bpassword);
+            User.user = user;
+            User.userProfile.querySelector('span').innerText = user;
+            Aside.profileInfo = Aside.profile.querySelector('#profile-info');
+            Aside.profilePhotos = Aside.profile.querySelector('#profile-photos');
+            Header.UserIcon = document.querySelector('.user-icon');
+            Header.UserIcon.addEventListener('click', Header.goToProfile);
+            Header.goToHomePage();
+            PostService.save();
+        } catch (e) {
+            if(e.message == 400) {
+                console.log("Неверный пароль");
+            } 
+            else if (e.message == 401) {
+                console.log("Неверный логин");
+            }
+        }
     }
 }
 
@@ -305,7 +312,7 @@ class Section {
         const hashtags = Section.editHashtags.value.split(' ');
         if(await PostService.editPhotoPost(id, {'description': description, 'hashtags': hashtags})) {
             descriptionTag.innerText = description;
-            hashtagsTag.innerHTML = hashtags;
+            hashtagsTag.innerHTML = hashtags.join(" ");
             dateTag.innerText = Controller.getRealDate();
             PostService.save();
         }
@@ -360,7 +367,5 @@ class Section {
         //     View.hide(Section.pagination);
     }
 }
-if(start) {
-    PostService.restore();
-    start = false;
-}
+
+PostService.restore();

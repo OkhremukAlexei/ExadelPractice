@@ -3,7 +3,6 @@ import com.bsu.model.PhotoPost;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,25 +11,36 @@ import static junit.framework.Assert.assertNotNull;
 
 public class PhotoPostDaoTest {
     @Test
+    public void testSize() {
+        PhotoPostDao dao = new PhotoPostDao();
+        int expected = dao.getSize();
+
+        assertEquals(expected, 11);
+    }
+    @Test
     public void testGet() {
         PhotoPost expected = new PhotoPost();
-        expected.setId(2002);
-        expected.setDescription("pashka");
-        expected.setCreationDate("2000-05-20");
-        expected.setPhotoLink("https://pp.userapi.com/c836330/v836330774/259c/5N9GgEHkEYo.jpg");
+        expected.setId(11111);
+        expected.setDescription("PahGun");
+        expected.setCreationDate("20-05-2000");
+        expected.setPhotoLink("http://link.jpg");
         expected.setAuthor("Sosnashenko");
-        expected.setHashtags(new ArrayList<>(Collections.singletonList("#nature")));
-        expected.setLikes(new ArrayList<>(Arrays.asList("Dima", "Natasha")));
+        expected.setHashtags(new ArrayList<>(Collections.singletonList("#viskey")));
+        expected.setLikes(new ArrayList<>(Collections.singletonList("Ohremchuk")));
+
         PhotoPostDao dao = new PhotoPostDao();
 
-        PhotoPost actual = dao.get(2002);
+        dao.save(expected);
+        expected.setCreationDate("2000-05-20");
+
+        PhotoPost actual = dao.get(11111);
         assertEquals(expected, actual);
     }
 
     @Test
     public void testGetNotNull() {
         PhotoPostDao dao = new PhotoPostDao();
-        PhotoPost expected = dao.get(2002);
+        PhotoPost expected = dao.get(11111);
         assertNotNull(expected);
     }
 
