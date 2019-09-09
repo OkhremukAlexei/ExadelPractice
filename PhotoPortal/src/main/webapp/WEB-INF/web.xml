@@ -48,12 +48,12 @@
         <servlet-class>com.bsu.servlet.EditPhotoPost</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UserServlet</servlet-name>
-        <servlet-class>com.bsu.servlet.UserServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>LikeServlet</servlet-name>
         <servlet-class>com.bsu.servlet.LikeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegistrationServlet</servlet-name>
+        <servlet-class>com.bsu.servlet.RegistrationServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogInServlet</servlet-name>
@@ -106,12 +106,12 @@
         <url-pattern>/photo-posts</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UserServlet</servlet-name>
-        <url-pattern>/user</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>LikeServlet</servlet-name>
         <url-pattern>/like</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistrationServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogInServlet</servlet-name>

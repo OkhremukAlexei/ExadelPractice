@@ -1,9 +1,24 @@
 class View {
+    static errorFieldColor(field) {
+        field.style.backgroundColor = '#f3848b';
+    }
+
+    static okFieldColor(field) {
+        field.style.backgroundColor = '#ffffff';
+    }
+
     static viewPosts(posts) {
         const containerEl = document.querySelector('.all-photos');
-        posts.forEach((post) => {
-            containerEl.prepend(View.buildPost(post));
-    });
+        for (let i = posts.length - 1; i >= 0; i--) {
+            containerEl.prepend(View.buildPost(posts[i]));
+        }
+    }
+
+    static removePosts(amount) {
+        const containerEl = document.querySelector('.all-photos');
+        for(let i = 0; i < amount; i++) {
+            containerEl.removeChild(containerEl.firstChild);
+        }
     }
 
     static viewPhotosProfile(posts, user, container) {

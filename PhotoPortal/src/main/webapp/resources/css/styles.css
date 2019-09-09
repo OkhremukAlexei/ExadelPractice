@@ -86,25 +86,36 @@ main{
     width: 30vh;
 }
 #authorization{
-    background: #d5f3c4;
+    background: #f7ffee;
     display: none;
-    height: 45vh;
+    height: 45%;
     width: 35vw;
     border: 3px solid #3c783c;
     margin: 10% 0 0 35%;
     animation: show 0.8s linear forwards;
 }
-#login, #password, #enter{
+#login, #password, #enter, #repeat_password{
     height: 5vh;
     width: 20vw;
     border-radius: 3px;
     display: flex;
     flex-direction: column;
-    margin: 7vh auto 5vh 35%;
+    margin: 7vh auto 2vh 35%;
     padding-left: 1vw;
 }
+#repeat_password{
+    display: none;
+}
+#registration{
+    width: 20vw;
+    margin-left: 35%;
+    font-size: 2vh;
+    color: #364b8d;
+    cursor: pointer;
+    text-decoration: underline;
+}
 #enter{
-    margin-top: 10vh;
+    margin-top: 3vh;
     background-color: rgb(240, 255, 225);
     border-radius: 5%;
     border: 1px solid black;

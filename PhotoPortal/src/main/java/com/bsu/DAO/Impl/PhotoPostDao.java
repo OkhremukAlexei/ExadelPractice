@@ -18,11 +18,9 @@ import java.util.Map;
 public class PhotoPostDao implements Dao<PhotoPost> {
 
     private Connection connection;
-
     public PhotoPostDao(){
         this.connection = ConnectionPoolImpl.getPool().getConnection();
     }
-
     public Connection getConnection() {
         return connection;
     }

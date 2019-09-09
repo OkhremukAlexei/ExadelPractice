@@ -1,9 +1,9 @@
 class Controller {
-    constructor(posts){
+    constructor(){
         new Header();
         new Aside();
         new Section();
-        Controller.addAll(posts);
+        Controller.addAll();
     }
 
     static getRealDate() {
@@ -16,31 +16,36 @@ class Controller {
         return day + '-' + month + '-' + year;
     }
 
-    static async addAll(photoPosts) {
-        if(!!photoPosts)
-            View.viewPosts(photoPosts);
-        else {
-            const posts = await PostService.getPhotoPosts(0, 10);
-            View.viewPosts(posts);
-        }
+    static async addAll() {
+        const posts = await PostService.getPhotoPosts(0, 10);
+        View.viewPosts(posts);
+        PostService.savePostList(posts);
     }
 }
 
 class User {
     static auth = document.querySelector('#authorization');
     static authForm = User.auth.querySelector('#authorization form');
+    static loginField = User.auth.querySelector('#login');
+    static registration = User.auth.querySelector("#registration");
+    static passwordField = User.auth.querySelector('#password');
+    static repeatPasswordField = User.auth.querySelector('#repeat_password');
     static userProfile = document.querySelector('.user-icon');
     static user;
     constructor() {
         User.authForm.addEventListener('submit', User.setUser);
+        User.registration.addEventListener('click', User.setRegister);
     }
 
     static async setUser() {
-        let user = document.querySelector('#login').value;
-        let bpassword = btoa(document.querySelector('#password').value);
+        let user = User.loginField.value;
+        let bpassword = btoa(User.passwordField.value);
 
         try {
             await LoginService.login(user, bpassword);
+
+            View.okFieldColor(User.loginField);
+            View.okFieldColor(User.passwordField);
             User.user = user;
             User.userProfile.querySelector('span').innerText = user;
             Aside.profileInfo = Aside.profile.querySelector('#profile-info');
@@ -48,14 +53,57 @@ class User {
             Header.UserIcon = document.querySelector('.user-icon');
             Header.UserIcon.addEventListener('click', Header.goToProfile);
             Header.goToHomePage();
-            PostService.save();
+
+            PostService.saveUser(user);
         } catch (e) {
             if(e.message == 400) {
+                View.errorFieldColor(User.passwordField);
                 console.log("Неверный пароль");
             } 
             else if (e.message == 401) {
+                View.errorFieldColor(User.loginField);
                 console.log("Неверный логин");
             }
+        }
+    }
+
+    static setRegister() {
+        View.show(User.repeatPasswordField);
+        View.okFieldColor(User.loginField);
+        View.okFieldColor(User.passwordField);
+        User.authForm.addEventListener('submit', User.registerUser);
+    }
+
+    static async registerUser() {
+        let user = User.loginField.value;
+        let bpassword = btoa(User.passwordField.value);
+        let bpassword_repeat = btoa(User.repeatPasswordField.value);
+        
+        if(bpassword === bpassword_repeat) {
+            try {
+                await LoginService.register(user, bpassword);
+
+                View.okFieldColor(User.loginField);
+                View.okFieldColor(User.passwordField);
+                View.hide(User.repeatPasswordField);
+                User.user = user;
+                User.userProfile.querySelector('span').innerText = user;
+                Aside.profileInfo = Aside.profile.querySelector('#profile-info');
+                Aside.profilePhotos = Aside.profile.querySelector('#profile-photos');
+                Header.UserIcon = document.querySelector('.user-icon');
+                Header.UserIcon.addEventListener('click', Header.goToProfile);
+                Header.goToHomePage();
+
+                PostService.saveUser(user);
+            } catch (e) {
+                if(e.message == 400) {
+                    View.errorFieldColor(User.loginField);
+                    console.log("Такой пользователь уже существует");
+                }
+            } 
+        } else {
+            View.errorFieldColor(User.passwordField);
+            View.errorFieldColor(User.repeatPasswordField);
         }
     }
 }
@@ -98,7 +146,7 @@ class Post {
             Post.filters.forEach((filter) =>{
                 filter.setAttribute('src', 'resources/images/cat.jpg');
             });
-            PostService.save();
+            PostService.savePostList(await PostService.getPhotoPosts(0, 10));
         }
         else {
             alert("Проверьте введённые данные");
@@ -147,21 +195,18 @@ class Header {
         }
     }
 
-    static goToAuthorization() {
+    static async goToAuthorization() {
+        await LoginService.logout();
         Header.title.innerText = 'Авторизация';
         View.hideSection();
         if (User.user) {
             View.hide(Aside.profile);
             View.hide(User.userProfile);
             View.hideAdding();
-            // if(!!Aside.profilePhotos && !!Aside.profilePhotos)
-            //   View.removeProfile(Aside.profilePhotos, Aside.profileInfo);
+            User.user = null;
         }
-        if (User.user) User.user = null;
         View.show(User.auth);
         new User();
-        PostService.save();
-        // User.authForm.removeEventListener('submit', User.setUser);
     }
 
     static async goToProfile() {
@@ -188,7 +233,7 @@ class Aside {
     static profileIcon = document.querySelector('.profile');
     static searchingIcon = document.querySelector('.searching');
     static searchingBlock = document.querySelector('#searching');
-    static searchByAuthor = document.querySelectorAll('#searching input')[0];
+    static searchByAuthorOrHashtag = document.querySelectorAll('#searching input')[0];
     static searchByDate = document.querySelectorAll('#searching input')[1];
     static search = document.querySelector('#searching form');
 
@@ -222,34 +267,26 @@ class Aside {
 
     static async doSearch(event) {
         event.preventDefault();
-        const filter = Aside.searchByAuthor.value.trim();
+        const input = Aside.searchByAuthorOrHashtag.value.trim();
         const date = Aside.searchByDate.value;
-        const all = await PostService.getPhotoPosts(0, 10);
-        let findPosts;
-        if(!!Aside.searchByAuthor.value){
-            if(filter.charAt[0] === '#'){
-                findPosts = await PostService.getPhotoPosts(0, 10, {'hashtags': filter});
-                all.forEach((post) => {
-                    if (findPosts.findIndex((postFilter) => post.id === postFilter.id) === -1)
-                View.removePost(post.id)
-            });
-            }
-            else {
-                const findPosts = await PostService.getPhotoPosts(0, 10, {'author': filter});
-                all.forEach((post) => {
-                    if (findPosts.findIndex((postFilter) => post.id === postFilter.id) === -1)
-                View.removePost(post.id)
-            });
+        let filter = {};
+        if(input !== '') {
+            if (input.charAt[0] === '#') {
+                filter['hashtag'] = input;
+            } else {
+                filter['author'] = input;
             }
         }
-        else if (!!Aside.searchByDate.value) {
-            const findPostsByDate = all.filter((post) => post.creationDate === date);
-            findPosts = findPosts || all;
-            findPosts.forEach((post) => {
-                if (findPostsByDate.findIndex((postFilter) => post.id === postFilter.id) === -1)
-            View.removePost(post.id)
-        });
+        if(date !== '') {
+            filter['creationDate'] = date;
         }
+
+        const filterPosts = await PostService.getPhotoPosts(0, 10, filter);
+        const currentPosts = JSON.parse(localStorage.getItem('PostList'));
+        if(JSON.stringify(currentPosts) !== "{}") {
+            View.removePosts(currentPosts.length);
+        }
+        View.viewPosts(filterPosts);
     }
 }
 
@@ -282,7 +319,7 @@ class Section {
                     try {
                         await PostService.removePhotoPost(event.path[2].id);
                         View.removePost(event.path[2].id);
-                        PostService.save();
+                        PostService.savePostList(await PostService.getPhotoPosts(0, 10));
                     }catch (e) {
                         alert("Error");
                     }
@@ -312,9 +349,9 @@ class Section {
         const hashtags = Section.editHashtags.value.split(' ');
         if(await PostService.editPhotoPost(id, {'description': description, 'hashtags': hashtags})) {
             descriptionTag.innerText = description;
-            hashtagsTag.innerHTML = hashtags.join(" ");
+            hashtagsTag.innerHTML = hashtags;
             dateTag.innerText = Controller.getRealDate();
-            PostService.save();
+            PostService.savePostList(await PostService.getPhotoPosts(0, 10));
         }
         View.hide(Section.edit);
     }
@@ -328,11 +365,11 @@ class Section {
             View.noneScaleLike(elem);
             if (isHasLike === false) {
                 path.innerText = parseInt(path.innerText) + 1;
-                PostService.save();
+
             } else {
                 path.innerText = parseInt(path.innerText) - 1;
-                PostService.save();
             }
+            PostService.savePostList(await PostService.getPhotoPosts(0, 10));
             View.scaleLike(elem);
         }
 
@@ -343,11 +380,12 @@ class Section {
         if (elem.tagName === 'A') {
             const filter = event.target.innerText.trim();
             const findPosts = await PostService.getPhotoPosts(0, 10, {'hashtags': filter});
-            const all = await PostService.getPhotoPosts(0, 10); // why???
-            all.forEach((post) => {
-                if (findPosts.findIndex((postFilter) => post.id === postFilter.id) === -1)
-                View.removePost(post.id)
-            });
+            const currentPosts = JSON.parse(localStorage.getItem('PostList'));
+            if(!!currentPosts) {
+                View.removePosts(currentPosts.length);
+            }
+            View.viewPosts(findPosts);
+            PostService.savePostList(findPosts);
         }
     }
 
