@@ -92,7 +92,7 @@ public class UserDao implements Dao<User> {
     }
 
     @Override
-    public boolean update(long id, Map<String, Object> params) {
+    public boolean update(long id, Map<String, String> params) {
         // TO DO
         return true;
     }

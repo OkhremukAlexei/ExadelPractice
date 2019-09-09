@@ -210,10 +210,6 @@ class Header {
     }
 
     static async goToProfile() {
-        View.clearContainer(Aside.profile);
-        View.viewPhotosProfile(await PostService.getPhotoPosts(0, 10,
-            {'author': User.user}), User.user, Aside.profile);
-        Header.title.innerText = 'Профиль';
         if (!User.user) Header.goToAuthorization();
         else {
             View.hideAdding();
@@ -222,6 +218,15 @@ class Header {
             View.show(Aside.profile);
             View.hide(User.userProfile);
         }
+        try {
+            View.clearContainer(Aside.profile);
+            View.viewPhotosProfile(await PostService.getPhotoPosts(0, 10,
+                {'author': User.user}), User.user, Aside.profile);
+
+        }catch (e) {
+            View.viewPhotosProfile(null, User.user, Aside.profile);
+        }
+        Header.title.innerText = 'Профиль';
     }
 }
 

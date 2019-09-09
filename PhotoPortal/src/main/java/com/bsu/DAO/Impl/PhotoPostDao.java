@@ -10,10 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PhotoPostDao implements Dao<PhotoPost> {
 
@@ -236,7 +233,7 @@ public class PhotoPostDao implements Dao<PhotoPost> {
     }
 
     @Override
-    public boolean update(long id, Map<String, Object> params) {
+    public boolean update(long id, Map<String, String> params) {
         String sql = "DELETE FROM likes WHERE likes.post_id = (?)";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setLong(1, id);
@@ -254,7 +251,8 @@ public class PhotoPostDao implements Dao<PhotoPost> {
             e.printStackTrace();
             return false;
         }
-        for(Map.Entry<String, Object> pair : params.entrySet()) {
+
+        for(Map.Entry<String, String> pair : params.entrySet()) {
             switch (pair.getKey()) {
                 case "description":
                     sql = "UPDATE photo_post SET description = (?), creation_date = (?)" +
@@ -272,9 +270,11 @@ public class PhotoPostDao implements Dao<PhotoPost> {
                 case "hashtags":
                     sql = "INSERT INTO hashtags(name, post_id) " +
                             "VALUES (?, ?);";
+                    String s = pair.getValue();
+                    String hashtags[] = s.substring(1, s.length() - 1).split(", ");
                     try (PreparedStatement stm = connection.prepareStatement(sql)) {
-                        for(Object hashtag : Arrays.asList(pair.getValue())){
-                            stm.setString(1, hashtag.toString());
+                        for(String hashtag : hashtags){
+                            stm.setString(1, hashtag);
                             stm.setLong(2, id);
                             stm.executeUpdate();
                         }

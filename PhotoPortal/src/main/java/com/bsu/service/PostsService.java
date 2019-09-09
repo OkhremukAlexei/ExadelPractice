@@ -10,6 +10,6 @@ public interface PostsService {
     PhotoPost getPhotoPost(int id);
     boolean validatePhotoPost(PhotoPost post);
     boolean addPhotoPost(PhotoPost post);
-    boolean editPhotoPost(int id, Map<String, Object> map);
+    boolean editPhotoPost(int id, Map<String, String> map);
     boolean removePhotoPost(int id);
 }

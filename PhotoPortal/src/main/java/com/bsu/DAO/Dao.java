@@ -7,6 +7,6 @@ public interface Dao<T> {
     T get(long id);
     List<T> getAll();
     boolean save(T t);
-    boolean update(long id, Map<String, Object> params);
+    boolean update(long id, Map<String, String> params);
     boolean delete(T t);
 }

@@ -107,6 +107,7 @@ main{
     display: none;
 }
 #registration{
+    display: inline-block;
     width: 20vw;
     margin-left: 35%;
     font-size: 2vh;
