@@ -60,7 +60,7 @@ public class PhotoPostServlet extends HttpServlet {
             String description = "";
             String photoLink = "";
             ArrayList<String> hashtags = new ArrayList<>();
-            String creationDate = DBPostServiceImpl.buildCurrentDate().toString();
+            String creationDate = DBPostServiceImpl.buildCurrentDate();
 
             for(Map.Entry<String, Object> pair : map.entrySet()) {
                 switch (pair.getKey()) {
@@ -79,7 +79,7 @@ public class PhotoPostServlet extends HttpServlet {
                     case "hashtags":
                         String s = pair.getValue().toString();
                         String temp = s.substring(1, s.length() - 1);
-                        hashtags = new ArrayList<>(Arrays.asList(temp.split(",")));
+                        hashtags = new ArrayList<>(Arrays.asList(temp.split(", ")));
                         break;
                 }
             }

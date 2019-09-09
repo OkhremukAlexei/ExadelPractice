@@ -120,7 +120,7 @@ public class DBPostServiceImpl implements PostsService {
                 case "hashtags":
                     String s = pair.getValue().toString();
                     String temp = s.substring(1, s.length() - 1);
-                    hashtags = new ArrayList<>(Arrays.asList(temp.split(",")));
+                    hashtags = new ArrayList<>(Arrays.asList(temp.split(", ")));
                     break;
             }
         }

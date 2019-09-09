@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class LikeServlet extends HttpServlet {
-
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         DBPostServiceImpl collection = new DBPostServiceImpl();
