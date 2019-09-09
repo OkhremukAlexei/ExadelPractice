@@ -29,8 +29,8 @@ public class EditPhotoPost extends HttpServlet {
             String data = sc.next();
             Gson gson = new Gson();
 
-            Map<String, Object> map = gson.fromJson(data, Map.class);
-            int id = Integer.parseInt(map.get("id").toString());
+            Map<String, String> map = gson.fromJson(data, Map.class);
+            int id = Integer.parseInt(map.get("id"));
 
             if (collection.editPhotoPost(id, map)) {
                 out.println("Post has been successfully change\n");

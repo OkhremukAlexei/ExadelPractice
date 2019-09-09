@@ -103,29 +103,27 @@ public class DBPostServiceImpl implements PostsService {
     }
 
     @Override
-    public boolean editPhotoPost(int id, Map<String, Object> map) {
+    public boolean editPhotoPost(int id, Map<String, String> map) {
         PhotoPost post = photoPostDao.get(id);
         if(post == null) {
             return false;
         }
 
         String description = "";
-        List<String> hashtags = new ArrayList<>();
+        String hashtags = "";
 
-        for(Map.Entry<String, Object> pair : map.entrySet()) {
+        for(Map.Entry<String, String> pair : map.entrySet()) {
             switch (pair.getKey()) {
                 case "description":
                     description = String.valueOf(pair.getValue());
                     break;
                 case "hashtags":
-                    String s = pair.getValue().toString();
-                    String temp = s.substring(1, s.length() - 1);
-                    hashtags = new ArrayList<>(Arrays.asList(temp.split(", ")));
+                    hashtags = String.valueOf(pair.getValue());
                     break;
             }
         }
 
-        Map<String, Object> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         if (description != null && description.length() <= 200) {
             params.put("description", description);
         } else {
